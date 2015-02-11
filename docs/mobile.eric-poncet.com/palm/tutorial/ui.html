@@ -1,0 +1,322 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/ui.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:56 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial User Interface UI</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; UI</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            UI<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/ui.gif" width="160" height="160" border="1" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To design and develop user interface with more advanced objects 
+              such as sliders, progress bar, multiple depth bitmaps...</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Using more sophisticated UI objects</h5>
+            <p>So far, we've only dealt with graphical objects like buttons, labels, 
+              fields, popup lists... At some point, you will need to add more 
+              complex behaviour and user interaction to your application. Palm 
+              OS docs are pretty well structured and contain all the information 
+              you need to do so. However, all this information is spread over 
+              dozens of pages. This topic of our tutorial will provide you with 
+              a &quot;concentrate&quot; of how to develop cool UIs.</p>
+            <h5>Using several forms in the same app</h5>
+            <p>Also, we've only addressed apps that have one main form. Here, 
+              you'll see how to create, load, activate and switch <span class="reverse">several 
+              forms</span> within your application.</p>
+            <h5>Graphical objects</h5>
+            <p>Here's the overview of those new guys we're going to study:</p>
+            <p> 
+            <ul>
+              <li><span class="reverse">FONT</span>: create your own font into 
+                a .txt file and use it to display text on the UI</li>
+              <li><span class="reverse">FORMBITMAP</span>: how to deal with grayscale 
+                and color images of different depths</li>
+              <li><span class="reverse">SELECTORTRIGGER</span>: allows you to 
+                tap on a trigger that will pop up a form (like in the DateBook 
+                when you pick an hour)</li>
+              <li><span class="reverse">STRINGTABLE</span>: define a collection 
+                of strings into the .prc and load it in your app (You're a smart 
+                developer... You don't like hard-wired text, do you?)</li>
+              <li><span class="reverse">GRAFFITISTATEINDICATOR</span>: this is 
+                what shows the user when s/he taps a dot or a backslash in the 
+                graffiti area, which allows the user to enter special characters 
+                (tap a dot, you'll see a big dot appearing on the screen, and 
+                then tap a space, you'll get a dash and the dot disappears - this 
+                dot was a graffiti state indicator)</li>
+              <li><span class="reverse">SCROLLBAR</span>: create a scrollbar and 
+                react to the user's tap on the scroll arrows</li>
+              <li><span class="reverse">SLIDER</span>: this one looks like a cursor 
+                that you slide along a line, just like you do when you raise or 
+                lower the volume on a sound mixer. Use it in your app to adjust 
+                a value graphically.</li>
+              <li><span class="reverse">PROGRESS BAR</span>: use one when your 
+                app opens up a remote connection or fires any task that takes 
+                enough time to make the user angry if there's no feedback...</li>
+              <li><span class="reverse">GADGET</span>: that's the magical object. 
+                Basically, it's a rectangular area that you declare as such, and 
+                for which you define and manage the behaviour.</li>
+            </ul>
+            And there's a short list of new clauses that PilRC uses to compile 
+            our .rcp: 
+            <p></p>
+            <p> 
+            <ul>
+              <li><span class="reverse">ICONFAMILY</span>: Palm launcher extracts 
+                an ICON resource from each .prc and displays them. You'll then 
+                tap the icon associated to the app you want to run. If you develop 
+                a commercial-grade app, you should take into account that some 
+                of your users have a monochrom display, others have grayscale, 
+                others have 256 colors. If you only create a monochrom ICON, users 
+                who have a cool color display will be a bit unhappy. If you only 
+                create a color ICON, users having a monochrom device will just 
+                get a &quot;black-and-whited&quot; version that will likely not 
+                look very nice. And so forth concerning grayscale. So, you'll 
+                need to create 4 versions of your icon: monochrom, 4-grayscale, 
+                16-grayscale and 256-color.</li>
+              <li><span class="reverse">SMALLICONFAMILY</span>: in Palm launcher, 
+                you can set preferences to view apps by LIST versus ICON. This 
+                displays a SMALLICON rather than an ICON, and allows to fit more 
+                apps on the display. Just like ICONFAMILY above, this clause allows 
+                you to embed a small icon for each possible color depth.</li>
+              <li><span class="reverse">VERSION</span>: defines the version of 
+                your app</li>
+              <li><span class="reverse">LAUNCHERCATEGORY</span>: with this clause, 
+                you can tell hotsync in what category it should install your app 
+                (System, Main, Games...). If the category doesn't exist, it'll 
+                be created automagically. Please note that all the apps of our 
+                tutorial will be installed in category 'Tutorial' (logical - huh?!?)</li>
+            </ul>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/ui.zip">ZIP</a> file.</p>
+            <p>In ui.h:</p>
+            <p> 
+            <ul>
+              <li>define constants for the selector: SelectorDay, SelectorTime, 
+                SelectorStartEnd</li>
+              <li>define three string tables:<br>
+                <span class="source">#define StringTableArdipithecusStr 1403<br>
+                #define StringTableAustralopithecusStr 1404<br>
+                #define StringTableHomoStr 1405 </span></li>
+              <li>define three objects for our scroll bar: ScrollField, ScrollBar, 
+                ScrollStr</li>
+              <li>define some values for the slider: SliderSlider=1701, SliderThumb=1702, 
+                SliderBackground=1703, SliderMax=40</li>
+              <li>add the dimensions of the gadget:<br>
+                <span class="source">#define GadgetWidth 40<br>
+                #define GadgetHeight 40</span></li>
+              <li>define a Font and FontID for the reverse and smiley fonts the 
+                same way the FunFont was defined</li>
+            </ul>
+            <p>In ui.rcp: </p>
+            <p> 
+            <ul>
+              <li>add reverse and smiley fonts</li>
+              <li>add <span class="source">BITMAPGREY16</span>...</li>
+              <li>add <span class="source">BITMAPFAMILY</span>... for the slider's 
+                thumb</li>
+              <li>add <span class="source">StringTableAustralopithecusStr</span> 
+                with values <span class="source">&quot;A. &quot; &quot;anamensis 
+                -4.2M&quot; &quot;afarensis -3.9M&quot; &quot;africanus -3.2M&quot; 
+                &quot;boisei -2.1M&quot; &quot;robustus -2M&quot;</span></li>
+              <li>in FontForm, add <span class="source">FONT SmileyFontID</span> 
+                where appropriate</li>
+              <li>in BitmapForm, add <span class="source">Grey16Bitmap</span> 
+                and <span class="source">Color256Bitmap</span> where they should 
+                appear</li>
+              <li>in SelectorForm, add a selector for time</li>
+              <li>in GraffitiForm, place a <span class="source">GRAFFITISTATEINDICATOR</span> 
+                at... the right place :)</li>
+              <li>in ScrollForm, insert a <span class="source">SCROLLBAR</span> 
+                whose ID is ScrollBar, position is (previous_right+7 previous_top 
+                7 previous_height), value and min are 0, max is 7 and pagesize 
+                equals 1</li>
+              <li>in SliderForm, add a beautiful slider like this:<br>
+                <span class="source">SLIDER ID SliderSlider AT (10 PREVBOTTOM+4 
+                140 30) FEEDBACK THUMBID SliderThumb BACKGROUNDID SliderBackground 
+                VALUE 0 MIN 0 MAX SliderMax PAGESIZE 1 </span></li>
+              <li>in GadgetForm, create a <span class="source">GADGET</span> with 
+                GadgetGadget as an ID, x=CENTER, y=90, width=GadgetWidth, height=GadgetHeight). 
+                And oh yes! It should be USABLE.</li>
+            </ul>
+            <p>In ui.c:</p>
+            <p> 
+            <ul>
+              <li>declare 3 font handles: <span class="source">MemHandle funFontH, 
+                reverseFontH, smileyFontH;</span></li>
+              <li>declare a pointer to our progress indicator: <span class="source">ProgressPtr 
+                prg = NULL;</span></li>
+              <li>in BitmapFormHandleEvent() add this code to display 16K-color 
+                bitmaps only if OS version &gt;= 4:<br>
+                <span class="source">FormPtr frm = FrmGetActiveForm();<br>
+                UInt16 obj = FrmGetObjectIndex(frm, Color16KBitmap);<br>
+                FrmRemoveObject(&amp;frm, obj);<br>
+                frm = FrmGetActiveForm(); // refresh pointer that may have changed 
+                after FrmRemoveObject<br>
+                FrmNewLabel(&amp;frm, Color16KBitmap, &quot;Need OS4+&quot;, 110, 
+                115, 0);</span> </li>
+              <li>in SelectorFormHandleEvent()/case SelectorTime, add this to 
+                assign a default time:<br>
+                <span class="source">DateTimeType dt;<br>
+                TimSecondsToDateTime(TimGetSeconds(), &amp;dt); //get today date<br>
+                hour = dt.hour;<br>
+                minute = dt.minute;</span></li>
+              <li>and that to get what time the user selected:<br>
+                <span class="source">char str[40];<br>
+                TimeToAscii(hour, minute, PrefGetPreference(prefTimeFormat), str);<br>
+                SetSelector(SelectorForm, SelectorTime, str);</span> </li>
+              <li>in DisplayStringTable(), add this two-pass chunk to load the 
+                strings from the table:<br>
+                <span class="source">for (count = 0; true; count++) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                pass 1: let's count # of strings<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (StrLen(SysStringByIndex(strTbl, count, 
+                str, sizeof(str))) &lt;= 3) // only got prefix?<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break; // exit loop<br>
+                for (i = 0; i &lt; count; i++) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                pass 2: letz get'em stringz!<br>
+                {<br>
+                &nbsp;&nbsp;SysStringByIndex(strTbl, i, str, sizeof(str));<br>
+                &nbsp;&nbsp;WinDrawChars(str, StrLen(str), 10, (64 - 10 + ((i+1)*(96 
+                / (count+1)))));<br>
+                }</span> </li>
+              <li>in ScrollFormHandleEvent(), draw a rectangle around the table, 
+                to make it look nicer:<br>
+                <span class="source">WinDrawGrayRectangleFrame(simpleFrame, &amp;rectField);<br>
+                WinDrawGrayRectangleFrame(simpleFrame, &amp;rectBar);</span> </li>
+              <li>upon receiving a sclRepeatEvent, do this:<br>
+                <span class="source">UInt16 newValue = event-&gt;data.sclRepeat.newValue;<br>
+                FormPtr frm = FrmGetActiveForm();<br>
+                FieldPtr fld = (FieldPtr)FrmGetObjectPtr(frm, FrmGetObjectIndex(frm, 
+                ScrollField));<br>
+                static UInt16 curValue = 0; <br>
+                </span><span class="source">if (newValue &gt; curValue)<br>
+                &nbsp;&nbsp;&nbsp;FldScrollField(fld, newValue-curValue, winDown);<br>
+                &nbsp;&nbsp;&nbsp;else FldScrollField(fld, curValue-newValue, 
+                winUp);<br>
+                curValue = newValue;</span></li>
+              <li> in SliderFormHandleEvent(), upon ctlRepeatEvent, you need to 
+                refresh the shape of our figure:<br>
+                <span class="source">UInt16 newValue = event-&gt;data.ctlRepeat.value;<br>
+                </span><span class="source">if (newValue != curValue)<br>
+                {<br>
+                &nbsp;&nbsp;DrawShape(curValue, newValue);<br>
+                &nbsp;&nbsp;curValue = newValue;<br>
+                }</span> </li>
+              <li>in ProgressCallback(), make sure you copy "Finishing" as a string 
+                (refer to &quot;case 0&quot;)</li>
+              <li>in ProgressFormHandleEvent()/case ProgressSlow, start progress 
+                dialog for slow process:<br>
+                <span class="source">count = 0;<br>
+                max = 0x0012;<br>
+                StrCopy(fileSize, &quot;huge&quot;);<br>
+                if ((prg = PrgStartDialog(&quot;Slow Task&quot;, &amp;ProgressCallback, 
+                (void*)fileSize)) == NULL)<br>
+                &nbsp;&nbsp;&nbsp;FrmCustomAlert(ErrorAlert, &quot;Unable to start 
+                progress dialog&quot;, &quot;&quot;, &quot;&quot;);</span> </li>
+              <li>in DrawGadget() here's the code that reverse from down to up:<br>
+                <span class="source">IndexedColorType textColor = WinSetTextColor(UIColorGetTableEntryIndex(UIFormFrame));<br>
+                IndexedColorType backColor = WinSetBackColor(UIColorGetTableEntryIndex(UIFormFill));<br>
+                WinDrawChars(&quot;Empty :(&quot;, 8, rect-&gt;topLeft.x+2, rect-&gt;topLeft.y+rect-&gt;extent.y-14);<br>
+                WinSetTextColor(textColor);<br>
+                WinSetTextColor(backColor);<br>
+                up = !up;</span></li>
+              <li>in AppHandleEvent(), you need to add some code in the case of 
+                nilEvent. Stop the progress dialog:<br>
+                <span class="source">PrgStopDialog(prg, false);<br>
+                prg = NULL;</span></li>
+              <li>or update it:<br>
+                <span class="source">PrgUpdateDialog(prg, 0, stage, dots, true);</span> 
+              </li>
+              <li>in AppStart(), get a handle on our home-made &quot;smiley&quot; 
+                font</li>
+            </ul>
+            Make the app and test it! 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/ui.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/ui2.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui3.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui4.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui5.gif" width="160" height="160" border="1" alt="Palm Tutorial"><br>
+              <img src="../screens/ui6.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui7.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui8.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui9.gif" width="160" height="160" border="1" alt="Palm Tutorial"><br>
+              <img src="../screens/ui10.gif" width="160" height="160" border="1" alt="Palm Tutorial">&nbsp;<img src="../screens/ui102.gif" width="160" height="160" border="1" alt="Palm Tutorial"> 
+            </p>
+            <p align="center">Next topic <a href="i18n.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/ui.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:00 GMT -->
+</html>

@@ -1,0 +1,215 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/serial.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:03 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" -->
+<title>Palm Tutorial Serial</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Serial</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Serial<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" -->
+            <h4 align="center"><img src="../screens/serial.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To use Serial Manager to send and receive data over the serial 
+              port.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Serial communication</h5>
+            <p>Like in any form of communication, you need senders and receivers.
+              Here, we'll deal with one <span class="reverse">client</span> that
+              sends <span class="reverse">requests</span> to a <span class="reverse">server</span>,
+              which in turn sends a <span class="reverse">reply</span> to the
+              client. Each of those two guys will have to send and receive something.</p>
+            <h5>APIs</h5>
+            <p>Here's the small collection of APIs we'll use. It's only a subset
+              of <span class="reverse">Serial Manager</span>'s APIs, but it's
+              actually the functions that you will most likely use for serial
+              comms:</p>
+            <p>
+            <ul>
+              <li><span class="source">SrmOpen(logical_port, baud_rate, &amp;port)</span></li>
+              <li><span class="source">SrmSend(port, buffer, number_of_bytes, 
+                &amp;error_code)</span></li>
+              <li><span class="source">SrmReceive(port, buffer, number_of_bytes, 
+                timeout_ticks, &amp;error_code)</span></li>
+              <li><span class="source">SrmSendFlush(port)</span></li>
+              <li><span class="source">SrmReceiveFlush(port, timeout)</span></li>
+              <li><span class="source">SrmClose(port)</span></li>
+            </ul>
+            <h4></h4>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/serial.zip">ZIP</a> file.</p>
+            <p>This apps runs on POSE as a client. The server is written in Java
+              and is included in the tutorial. On client UI, you'll be able to
+              request current date, current time, or simulate a communication
+              error with the server. The server replies accordingly by sending
+              date, time or an error message. Server UI just displays incoming
+              requests and outgoing replies.</p>
+            <p>In serial.h:</p>
+            <p>
+            <ul>
+              <li>add following IDs for our buttons: MainDownloadDate, MainDownloadTime,
+                MainDownloadCrap</li>
+              <li>add that one for our reply field: MainReply</li>
+            </ul>
+            <p>In serial.rcp: </p>
+            <p>
+              <ul>
+                
+              <li> add "Date" button with <span class="source">ID</span> MainDownloadDate 
+                (refer to how UI looks on top of this page)</li>
+                
+              <li>add "Time" button with <span class="source">ID</span> MainDownloadTime</li>
+                
+              <li>add "Crap" button with <span class="source">ID</span> MainDownloadCrap</li>
+              <li>add &quot;Reply&quot; field with <span class="source">ID</span> 
+                MainReply (it's <span class="source">LEFTALIGN NONEDITABLE UNDERLINED</span> 
+                and <span class="source">MAXCHARS 100</span>)</li>
+              <li>add <span class="source">VERSION 1 "1.0.0"</span> </li>
+                
+              <li>add <span class="source">LAUNCHERCATEGORY ID 1000 "Tutorial"</span> 
+              </li>
+              </ul>
+            <p>
+            <p>
+            <p>
+            <p>
+            <p>
+            <p>
+            <p>In serial.c:</p>
+            <p>
+            <ul>
+              <li>declare variable <span class="source">port</span> as a <span class="source">UInt16</span> 
+                and set it to zero</li>
+              <li>in MainFormHandleEvent()/case MainDownloadDate, flush receive 
+                port: <span class="source">SrmReceiveFlush(port, 0);</span></li>
+              <li>and send &quot;DATE&quot; request: <span class="source">SrmSend(port, 
+                "DATE\n", 5, &amp;err);</span> </li>
+              <li>a bit further, flush send port: <span class="source">SrmSendFlush(port);</span></li>
+              <li>and receive data: <span class="source">SrmReceive(port, ptr, 
+                1, 10, &amp;err)</span></li>
+              <li>in MainFormHandleEvent()/case MainDownloadTime, flush receive 
+                port as above</li>
+              <li>and send &quot;TIME&quot; command</li>
+              <li>in AppStart(), add this blocklet of code to open port and launch
+                main form:<br>
+                <span class="source">if ((retcode = SrmOpen(serPortCradlePort, 
+                115200, &amp;port)) == 0)<br>
+                &nbsp;&nbsp;&nbsp;FrmGotoForm(MainForm);</span></li>
+              <li>in AppStop(), close all open forms and close comm port:<br>
+                <span class="source">FrmCloseAllForms();<br>
+                retcode = SrmClose(port);</span></li>
+            </ul>
+            <p>In Serial.java:</p>
+            <p>
+              <ul>
+
+              <li>you don't need to do anything, it's ready to use :)</li>
+              </ul>
+            <p>Make the app. On your desktop double-click on Serial.bat (or run 
+              'java Serial &lt;port&gt;' from a command prompt) to execute the 
+              server Java class, THEN run this client app on POSE. Argument &lt;port&gt; 
+              must match POSE setting (usually 6416). </p>
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/serial.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <table border="1" cellspacing="0" cellpadding="0" align="center">
+              <tr> 
+                <td bgcolor="#CCCCCC"> 
+                  <div align="center"><font size="-2"><b>Server</b><br>
+                    (Desktop)</font></div>
+                </td>
+                <td bgcolor="#CCCCCC"> 
+                  <div align="center"><font size="-2"> <b>Client</b><br>
+                    (Palm) </font></div>
+                </td>
+              </tr>
+              <tr> 
+                <td valign="middle"> 
+                  <div align="center"><img src="../screens/serial2.gif" width="202" height="160" alt="Palm Tutorial"></div>
+                </td>
+                <td valign="middle"> 
+                  <div align="center"><img src="../screens/serial.gif" width="160" height="160" alt="Palm Tutorial"></div>
+                </td>
+              </tr>
+            </table>
+            <p align="center">Next topic <a href="find.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/serial.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:04 GMT -->
+</html>

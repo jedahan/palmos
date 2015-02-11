@@ -1,0 +1,215 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/prefs.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:54 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Preferences</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Prefs</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Prefs<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/prefs.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To be able to get and set system and application preferences.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>System preferences vs Application preferences</h5>
+            <p>Preferences are used to store data such as system parameters (volume 
+              sound, date formats...) or application settings (sorting options 
+              in AddressBook, repeat every X minutes in DateBook...). <span class="reverse">System 
+              preferences</span> are defined by the team who develops Palm OS 
+              whereas <span class="reverse">application preferences</span> are 
+              defined by the application's author, who is free to determine the 
+              nature, type and meaning of each parameter s/he defines as a preference.</p>
+            <h5>Getting and setting preferences</h5>
+            <p>System-wide preferences may be managed with a couple of APIs:</p>
+            <p> 
+            <ul>
+              <li><span class="source">gSysSoundVolume = PrefGetPreference(prefSysSoundVolume);</span></li>
+              <li><span class="source">PrefSetPreference(prefSysSoundVolume, gSysSoundVolume);</span></li>
+            </ul>
+            <p>Application-wide prefs use the following APIs:</p>
+            <p> 
+            <ul>
+              <li><span class="source">if (<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PrefGetAppPreferences(creatorID, 
+                0, &gAppPrefs, &nAppPrefsSize, true)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;== noPreferenceFound<br>
+                &nbsp;&nbsp;&nbsp;)<br>
+                &nbsp;&nbsp;&nbsp;MemSet(&gAppPrefs, sizeof(gAppPrefs), 0);</span><br>
+                creatorID is what helps Palm OS determine what prefs belong to 
+                what app. gAppPrefs is a struct{...} that you have to define as 
+                the container of your preferences. It is recommended that the 
+                return code be checked against <span class="source">noPreferenceFound</span>, 
+                and that nAppPrefsSize be check against the expected size of your 
+                preferences, because any corrupted or undefined preference may 
+                cause the app to behave in an unexpected and hard-to-figure-out 
+                way. Instead, you should detect such error and force the preferences 
+                to default values that make sense for your app.<br>
+              </li>
+              <li><span class="source">PrefSetAppPreferences(creatorID, 0, versionID, 
+                &gAppPrefs, sizeof(gAppPrefs), true);</span><br>
+                You may use versionID to manage the evolution of the data structure 
+                of your prefs.</li>
+            </ul>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/prefs.zip">ZIP</a> file.</p>
+            <p>The user of this app will be able to change system preferences 
+              (System sound volume, Stay on in cradle, Calibrate digitizer at 
+              reset) and application preferences (a boolean, a number and a string).</p>
+            <p>In prefs.h:</p>
+            <p> 
+            <ul>
+              <li>define ID MainAppBoolean for the POPUPTRIGGER that contains 
+                a boolean value</li>
+              <li>define ID MainAppBooleanList for the &quot;No/Yes&quot; LIST 
+                linked to the POPUPTRIGGER</li>
+              <li>define ID MainAppNumber for the FIELD that contains a numerical 
+                value</li>
+              <li>define ID MainAppString for the FIELD that holds our string 
+                value </li>
+            </ul>
+            <p>In prefs.rcp: </p>
+            <p> 
+            <ul>
+              <li> add a button to save app prefs: title is &quot;Save!&quot;, 
+                ID is MainSaveApp, position is (CENTER@120 PREVTOP AUTO AUTO), 
+                style is BOLDFRAME</li>
+              <li>add a No/Yes control for our boolean parameter, like this:<br>
+                <span class="source">POPUPTRIGGER &quot;Select&quot; ID MainAppBoolean 
+                AT (PREVRIGHT PREVTOP 80 AUTO)<br>
+                LIST &quot;No&quot; &quot;Yes&quot; ID MainAppBooleanList AT (PREVLEFT 
+                PREVTOP AUTO AUTO) VISIBLEITEMS 2 NONUSABLE<br>
+                POPUPLIST ID MainAppBoolean MainAppBooleanList</span></li>
+              <li>same for our numerical parameter:<br>
+                <span class="source">FIELD ID MainAppNumber AT (PREVRIGHT PREVTOP 
+                20 AUTO) LEFTALIGN EDITABLE UNDERLINED MAXCHARS 4 NUMERIC RIGHTALIGN</span></li>
+              <li>same for our string: a FIELD whose ID is MainAppString, position 
+                is (PREVRIGHT PREVTOP 60 AUTO), left-aligned, editable, underlined, 
+                maximum # of chars is 10<br>
+              </li>
+            </ul>
+            <p>In prefs.c:</p>
+            <p> 
+            <ul>
+              <li>define creatorID as 'TuPr' and versionID as 1 </li>
+              <li>define our prefs structure as follows:<br>
+                <span class="source">struct<br>
+                {<br>
+                &nbsp;&nbsp;Boolean b;<br>
+                &nbsp;&nbsp;UInt ui;<br>
+                &nbsp;&nbsp;Char s[11];<br>
+                }<br>
+                gAppPrefs;</span> <br>
+              </li>
+              <li>when user taps &quot;save&quot; on sys prefs, add this chunk 
+                of code to save the last 2 sys parameters:<br>
+                <span class="source">PrefSetPreference(prefStayOnWhenPluggedIn, 
+                GetList(MainForm, MainStayOnWhenPluggedInList) ? 1 : 0);<br>
+                PrefSetPreference(prefCalibrateDigitizerAtReset, GetList(MainForm, 
+                MainCalibrateDigitizerAtResetList) ? 1 : 0);</span></li>
+              <li>add this one to save app prefs:<br>
+                <span class="source">gAppPrefs.b = GetList(MainForm, MainAppBooleanList) 
+                ? true : false;<br>
+                gAppPrefs.ui = StrAToI(GetField(MainForm, MainAppNumber));<br>
+                StrNCopy(gAppPrefs.s, GetField(MainForm, MainAppString), sizeof(gAppPrefs.s)-1);<br>
+                PrefSetAppPreferences(creatorID, 0, versionID, &amp;gAppPrefs, 
+                sizeof(gAppPrefs), true);</span></li>
+              <li>in AppStart(), get sys prefs like this:<br>
+                <span class="source">gAutoOffDuration = PrefGetPreference(prefAutoOffDuration);<br>
+                gSysSoundVolume = PrefGetPreference(prefSysSoundVolume);<br>
+                gStayOnWhenPluggedIn = PrefGetPreference(prefStayOnWhenPluggedIn);<br>
+                gCalibrateDigitizerAtReset = PrefGetPreference(prefCalibrateDigitizerAtReset);</span></li>
+              <li>and app prefs like that:<br>
+                <span class="source">nAppPrefsSize = sizeof(gAppPrefs);<br>
+                if (PrefGetAppPreferences(creatorID, 0, &amp;gAppPrefs, &amp;nAppPrefsSize, 
+                true) == noPreferenceFound)<br>
+                &nbsp;&nbsp;&nbsp;MemSet(&amp;gAppPrefs, sizeof(gAppPrefs), 0);</span> 
+                <br>
+              </li>
+            </ul>
+            There you go... make it and check it out! 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/prefs.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/prefs.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;</p>
+            <p align="center">Next topic <a href="db.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/prefs.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:55 GMT -->
+</html>

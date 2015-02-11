@@ -1,0 +1,248 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/beam.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:02 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Beaming</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Beaming</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Beaming<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/beaming.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To manage infra-red communications and add beaming features to 
+              an application.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>To beam or not to beam?</h5>
+            <p>In order to beam data, you need two devices: <span class="reverse">a 
+              sender</span> and <span class="reverse">a receiver</span>. In this 
+              tutorial, we will deal with Palm OS <span class="reverse">Exchange 
+              Manager</span>, which provides the developer with high-level APIs. 
+              You won't have to set up low level parameters, open ports, yada 
+              yada yada.</p>
+            <h5>Who does what?</h5>
+            <p>In a nutshell, here's how beaming works. On the sender's side:</p>
+            <p> 
+            <ol>
+              <li>user initiates beaming by tapping a button, menu item, shortcut...</li>
+              <li>sender initializes an <span class="reverse">ExgSocketType</span> 
+                structure with the right values (creator ID, packet size, description, 
+                file name...)</li>
+              <li>sender calls <span class="reverse">ExgPut()</span> passing the 
+                socket as an argument</li>
+              <li>sender calls <span class="reverse">ExgSend()</span> passing 
+                the socket and data packet as arguments</li>
+              <li>sender checks return code and lets user know about beaming status</li>
+              <li>sender calls <span class="reverse">ExgDisconnect()</span> passing 
+                the socket as an argument</li>
+            </ol>
+            <p>On the receiver's side, things are a bit more tricky:</p>
+            <p> 
+            <ol>
+              <li>Ask user 
+                <ul>
+                  <li>on receiving device, Palm OS launches the application with 
+                    a <span class="reverse">sysAppLaunchCmdExgAskUser</span> launch 
+                    code</li>
+                  <li>the app may prompt the receiving user whether s/he accepts 
+                    incoming data</li>
+                  <li>usually, you let Palm reply &quot;OK&quot; for you, or you 
+                    implicitly return exgAskOk</li>
+                </ul>
+              </li>
+              <li>Receive incoming data 
+                <ul>
+                  <li>provided you accepted incoming data, Palm OS relaunches 
+                    the app with a <span class="reverse">sysAppLaunchCmdExgReceiveData</span> 
+                    launch code and passes an ExgSocketPtr</li>
+                  <li>receiver invokes <span class="reverse">ExgAccept()</span> 
+                    on this socket</li>
+                  <li>receiver invokes <span class="reverse">ExgReceive()</span> 
+                    on this socket and a local buffer, and checks return code 
+                    to inform user</li>
+                  <li>receiver does an <span class="reverse">ExgDisconnect()</span> 
+                    on socket</li>
+                </ul>
+              </li>
+              <li>Show data 
+                <ul>
+                  <li>Palm OS launches the app with a <span class="reverse">sysAppLaunchCmdGoTo</span> 
+                    launch code</li>
+                  <li>your app may display the data, do a beeeeeeeep, flash a 
+                    smiley, play your country's anthem or keep quiet</li>
+                </ul>
+              </li>
+            </ol>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/beam.zip">ZIP</a> file.</p>
+            <p>This app shows how to do basic beam I/O. You need another pocket 
+              device or desktop with beaming capabilities. </p>
+            <p>In beaming.h:</p>
+            <p> 
+            <ul>
+              <li>add ID MainBeamBtn with a value of your choice</li>
+              <li>same for ID MainClearBtn</li>
+              <li>same for ID MainStatus</li>
+            </ul>
+            <p>In beaming.rcp: </p>
+            <p> 
+            <ul>
+              <li>we forgot to include something...</li>
+              <li>add labels for name, ID, description and quantity</li>
+              <li>add fields for those same guys</li>
+              <li>in ReceivedDataAlert, add this chunk of code that pops up an 
+                alert form to which you pass 3 arguments (ID, name, quantity):<br>
+                <span class="source">INFORMATION<br>
+                BEGIN<br>
+                &nbsp;&nbsp;TITLE &quot;You just received 1 record&quot;<br>
+                &nbsp;&nbsp;MESSAGE &quot;Id: ^1\n&quot; \<br>
+                &nbsp;&nbsp;&quot;Name: ^2\n&quot; \<br>
+                &nbsp;&nbsp;&quot;Quantity: ^3&quot;<br>
+                &nbsp;&nbsp;BUTTONS &quot;Ok&quot; <br>
+                END </span></li>
+              <li>add ICON "beam.bmp" and SMALLICON "beamsmall.bmp" </li>
+              <li>add LAUNCHERCATEGORY with an ID of 1000 and literal that equals 
+                "Tutorial" </li>
+            </ul>
+            <p>In beaming.c:</p>
+            <p> 
+            <ul>
+              <li>hey... looks like we also forgot to include something here...</li>
+              <li>define CreatorID as 'TuBe' (beware single quotes, not double)</li>
+              <li>define ExtensionID as "TUT" (this one will tell Palm OS that 
+                if it receives some TUT data, then it's for our app)</li>
+              <li>define Filename as "Beaming.tut" (it'll be the default filename 
+                on target device)</li>
+              <li>declare socket like <span class="source">ExgSocketType socket;</span> 
+              </li>
+              <li>in BeamRecord(), initialize our socket with this:<span class="source"><br>
+                MemSet(&amp;socket, sizeof(socket), 0); // let's zero it up!<br>
+                socket.target = CreatorID; // target application<br>
+                socket.count = 1; // just 1 object<br>
+                socket.length = sizeof(record); // how many bytes to send per 
+                object<br>
+                socket.goToCreator = CreatorID; // use same application on target 
+                for the GoTo launch code<br>
+                socket.localMode = 0; // data will be sent to remote device, not 
+                local<br>
+                socket.packetMode = 0; // connected mode<br>
+                socket.noGoTo = 0; // we want the GoTo to be executed when testing 
+                in local mode<br>
+                socket.description = GetField(MainForm, MainName); // will display 
+                while device is beaming, to inform user<br>
+                socket.name = filename; // filename on target device (try to beam 
+                from this app to a desktop ;)</span> </li>
+              <li>add call to ExgPut: <span class="source">ExgPut(&amp;socket)</span></li>
+              <li>add call to ExgSend: <span class="source">ExgSend(&socket, &record, 
+                sizeof(record), &err) != sizeof(record)</span></li>
+              <li>add call to ExgDisconnect: <span class="source">ExgDisconnect(&socket, 
+                err)</span></li>
+              <li>in MainFormHandleEvent() add call to BeamRecord()</li>
+              <li>same in AppHandleEvent(), case MainRecordBeamCmd</li>
+              <li>in PilotMain, add <span class="source">((ExgAskParamPtr)cmdPBP)->result 
+                = exgAskOk; </span></li>
+              <li>a bit further, declare this:<br>
+                <span class="source">ExgSocketPtr pSocket = (ExgSocketPtr)cmdPBP; 
+                <br>
+                FakeRecordType buffer; </span></li>
+              <li>call <span class="source">ExgAccept(pSocket)</span></li>
+              <li>call <span class="source">ExgReceive(pSocket, &buffer, sizeof(buffer), 
+                &err)</span></li>
+              <li>call <span class="source">ExgDisconnect(pSocket, err)</span></li>
+              <li>a bit further, add that to display data: <span class="source">FrmCustomAlert(ReceivedDataAlert, 
+                StrIToA(str, buffer.ID), buffer.name, StrIToA(str2, buffer.quantity)); 
+                </span><br>
+              </li>
+            </ul>
+            <p>Your all set. Make the app, run it, populate fields with data, 
+              beam'em out, check on receiving device. If it's a Palm, data will 
+              automagically appear on screen. If it's a PC, you'll get a file 
+              called &quot;beaming.tut&quot; on your desktop or any folder related 
+              to IR exchanges. If it's a Pocket PC, it should be in &quot;My Documents&quot;.</p>
+            <p>For the fun of it, try to beam data back from the target device 
+              to check the receive API! </p>
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/beam.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/beaming.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;</p>
+            <p align="center">Next topic <a href="serial.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/beam.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:03 GMT -->
+</html>

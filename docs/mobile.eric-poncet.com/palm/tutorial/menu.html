@@ -1,0 +1,250 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/menu.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:53 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Menu</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Menu</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Menu<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/menu.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To design and develop a menu.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Hierarchy</h5>
+            <p>Palm OS gives the user the opportunity to tap on a menu button 
+              (or on the menu bar on top of the screen). A menu is made of <span class="reverse">submenus</span>, 
+              themselves made of <span class="reverse">items</span>. Each items 
+              gives access to a particular functionality of the application. A 
+              developer is completely free to organize those submenus and items. 
+              However, it is a good idea to <span class="reverse">follow certain 
+              implicit standards</span>, such as having an <span class="reverse">Edit 
+              menu</span> containing Cut/Copy/Paste, an <span class="reverse">Options 
+              menu</span> containing Help/About...</p>
+            <h5>Defining the menu</h5>
+            <p>The menu, its submenus and items will be defined in our .rcp file 
+              with the following structure: <span class="source">MENU</span> contains 
+              <span class="source">PULLDOWN</span>s that contain <span class="source">MENUITEM</span>s 
+              and some <span class="source">SEPARATOR</span>s. Here, we have 2 
+              submenus (Edit and Options):</p>
+            <p><span class="text"><span class="source">MENU ID MainMenu<br>
+              BEGIN<br>
+              </span><span class="source"> &nbsp;&nbsp;PULLDOWN &quot;Edit&quot;<br>
+              &nbsp;&nbsp;BEGIN<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Cut&quot; ID MainEditCutCmd 
+              &quot;X&quot;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Copy&quot; ID MainEditCopyCmd 
+              &quot;C&quot;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Paste&quot; ID MainEditPasteCmd 
+              &quot;V&quot;<br>
+              <span class="source"> &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM SEPARATOR<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Select All&quot; ID MainEditSelectAllCmd 
+              &quot;S&quot;<br>
+              &nbsp;&nbsp;END<br>
+              &nbsp;&nbsp;</span></span></span><span class="source">PULLDOWN &quot;Options&quot;<br>
+              &nbsp;&nbsp;BEGIN<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Help&quot; ID MainOptionsHelpCmd 
+              &quot;H&quot;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM SEPARATOR<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;About&quot; ID MainOptionsAboutCmd 
+              &quot;A&quot;<br>
+              &nbsp;&nbsp;END </span><span class="source"><br>
+              </span><span class="source"><span class="text"><span class="source">E</span></span></span><span class="text"><span class="source">ND</span></span> 
+            </p>
+            <p>The menu resource we defined in the .rcp file will communicate 
+              with our app thru <span class="reverse">events</span> and <span class="reverse">IDs</span>. 
+              If you took the tutorial on forms, you probably remember that this 
+              kind of IDs have to be defined in a .h file that's #included by 
+              both the .rcp and .c components of the app. Menus have to follow 
+              that rule as well:</p>
+            <p><span class="source">#define MainMenu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000<br>
+              #define MainEditCutCmd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1011<br>
+              #define MainEditCopyCmd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1012<br>
+              #define MainEditPasteCmd &nbsp;&nbsp;&nbsp;&nbsp;1013<br>
+              #define MainEditSelectAllCmd 1014<br>
+              #define MainOptionsHelpCmd &nbsp;&nbsp;1020<br>
+              #define MainOptionsAboutCmd &nbsp;1021</span> </p>
+            <h5>Writing code that handles menu events</h5>
+            <p>When the user taps on the menu bar (or on the menu button on the 
+              silkscreen), Palm OS sends a <span class="source">menuEvent</span> 
+              to the application, that has the responsibility to handle it and 
+              take action. The ID of the MENUITEM on which the user tapped is 
+              attached to the event, in <span class="source">event->data.menu.itemID</span>, 
+              so that the app just needs to execute the piece of code corresponding 
+              to the functionality requested by the user. </p>
+            <p>Here's how we could code a handler for the above menu:</p>
+            <p> <span class="source">switch (event-&gt;data.menu.itemID)<br>
+              {<br>
+              </span><span class="source">&nbsp;&nbsp;case MainEditCutCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              &nbsp;&nbsp;case MainEditCopyCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              </span><span class="source"></span><span class="source">&nbsp;&nbsp;</span><span class="source">case 
+              MainEditPasteCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              </span><span class="source">&nbsp;&nbsp;case MainEditSelectAllCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              </span><span class="source">&nbsp;&nbsp;case MainOptionsHelpCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              &nbsp;&nbsp;case MainOptionsAboutCmd:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+              &nbsp;&nbsp;default:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;... <br>
+              }</span></p>
+            <p><span class="source"> </span>This handler is part of the &quot;endless&quot; 
+              loop started in PilotMain. </p>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/menu.zip">ZIP</a> file.</p>
+            <p>In menu.h:</p>
+            <p> 
+            <ul>
+              <li>replace all the question marks with a unique ID</li>
+              <li> It is suggested that those IDs be <span class="reverse">consecutive</span> 
+                and <span class="reverse">grouped by submenu</span> (starting 
+                at 1000 for pulldown &quot;Record&quot;, at 1010 for &quot;Edit&quot;, 
+                at 1020 for &quot;Options&quot;)</li>
+            </ul>
+            <p>In menu.rcp: </p>
+            <p> 
+            <ul>
+              <li>include the .h</li>
+              <li>link the main form with the main menu by adding <span class="source">MENUID 
+                MainMenu</span> into the <span class="source">FORM</span> definition</li>
+              <li>add the &quot;Record&quot; pulldown as follows:<br>
+                <span class="source">PULLDOWN &quot;Record&quot;<br>
+                BEGIN<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Jarrett&quot; ID MainRecord1Cmd 
+                &quot;1&quot;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Peacock&quot; ID MainRecord2Cmd 
+                &quot;2&quot;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;De Johnette&quot; ID MainRecord3Cmd 
+                &quot;3&quot;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Terrasson&quot; ID MainRecord4Cmd 
+                &quot;4&quot;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;MENUITEM &quot;Pastorius&quot; ID MainRecord5Cmd 
+                &quot;5&quot;<br>
+                END</span> </li>
+            </ul>
+            <p>In menu.c:</p>
+            <p> 
+            <ul>
+              <li>include .h file</li>
+              <li>in MainFormHandleEvent(), locate the event switch/case menuEvent 
+                block, add <span class="source">MenuEraseStatus(NULL);</span></li>
+              <li>add the handler for the Edit/Clear command:<br>
+                <span class="source">if (fld = GetFocusObjectPtr())<br>
+                &nbsp;&nbsp;&nbsp;FldDelete(fld, 0, FldGetTextLength(fld));</span> 
+              </li>
+              <li>add the handler for Edit/Copy:<br>
+                <span class="source">if (fld = GetFocusObjectPtr())<br>
+                &nbsp;&nbsp;&nbsp;FldCopy(fld);</span> </li>
+              <li>same for Edit/Cut<br>
+                <span class="source">if (fld = GetFocusObjectPtr())<br>
+                &nbsp;&nbsp;&nbsp;FldCut(fld);</span><br>
+              </li>
+              <li>same for Edit/Paste<br>
+                <span class="source">if (fld = GetFocusObjectPtr())<br>
+                &nbsp;&nbsp;&nbsp;FldPaste(fld);</span><br>
+              </li>
+              <li>same for Edit/Select All<br>
+                <span class="source">if (fld = GetFocusObjectPtr())<br>
+                &nbsp;&nbsp;&nbsp;FldSetSelection(fld, 0, FldGetTextLength(fld));</span><br>
+              </li>
+              <li>same for Options/Help<br>
+                <span class="source">(void)FrmAlert(HelpAlert);</span><br>
+              </li>
+              <li>same for Options/About<br>
+                <span class="source">(void)FrmAlert(AboutAlert);</span></li>
+              <li>In AppEventLoop(), add this:<br>
+                <span class="source">if (MenuHandleEvent((void *)0, &amp;event, 
+                &amp;error))<br>
+                &nbsp;&nbsp;&nbsp;continue;</span><br>
+              </li>
+            </ul>
+            Make the app and test it! 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/menu.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/menu2.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/menu3.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/menu4.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;</p>
+            <p align="center">Next topic <a href="prefs.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/menu.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:54 GMT -->
+</html>

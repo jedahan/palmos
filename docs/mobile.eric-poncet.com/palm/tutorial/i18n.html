@@ -1,0 +1,220 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/i18n.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:00 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Internationalization / I18n</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; I18n</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            I18n<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/i18n-fra.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To be able to internationalize and localize an application.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Internationalization</h5>
+            <p>Your app should be <i>international</i>. That means anybody in 
+              any country should be able to use it. The most typical example is 
+              the way you will <span class="reverse">display or input </span><span class="reverse">dates 
+              and times</span>. &quot;Mon Dec 22, 1964 0700pm&quot; in the US 
+              should be formated as &quot;Lun 22 D&eacute;c 1964 19h00&quot; in 
+              France.</p>
+            <h5>Localization</h5>
+            <p>Your app must be international. Alright. Well... that's what the 
+              theory says. Throughout all the countries, there's a limited number 
+              of ways to display a date. So, adapting your app to display dates 
+              in any country is something feasible. On the other hand, as you 
+              can imagine, it will be extremely time-consuming to translate your 
+              app in all the languages that are used on Earth. First, you need 
+              to translate all the content. Second, you'll have to deal with lots 
+              of character sets. Third, QA and maintenance costs will sharply 
+              increase.</p>
+            <p>Theory is good, but common sense... makes sense! You need to <span class="reverse">choose 
+              a subset of languages</span> amongst the ones that are most widely 
+              used.</p>
+            <h5>Comment faire? <i>(How to...)</i></h5>
+            <p>PilRC uses the TRANSLATION clause to isolate language-specific 
+              content. In i18n.rcp, there is something like this in MainForm:<br>
+              <span class="source">LABEL "English version" AUTOID AT (CENTER 20) 
+              FONT 2</span> </p>
+            <p>If you look a bit above, you'll find this:<br>
+              <span class="source">TRANSLATION &quot;FRENCH&quot;<br>
+              BEGIN<br>
+              &quot;English version&quot; = &quot;Version fran&ccedil;aise&quot;<br>
+              ...<br>
+              END</span> </p>
+            <p>And that:<br>
+              <span class="source">TRANSLATION &quot;SPANISH&quot;<br>
+              BEGIN<br>
+              &quot;English version&quot; = &quot;Versi&oacute;n espa&ntilde;ola&quot;<br>
+              ... <br>
+              END </span></p>
+            <p>In other words (pun intended), the content that's initially in 
+              English is translated into French, and put together in its own section. 
+              Same for Spanish. Do we need to add Finnish? Cool! Just open a new 
+              section like <span class="source">TRANSLATION &quot;FINNISH&quot;</span> 
+              that'll contain the finnish version. </p>
+            <p>As you noticed, we do not actually translate the form directly. 
+              Rather, we declare a local version of labels that appear in the 
+              form. How do we get a localized .prc from there?</p>
+            <p>Good question... Thanks for asking :)</p>
+            <p>We'll tell PilRC what TRANSLATION to use by adding the -L flag. 
+              Also, we'll tell him in what directory it should store binary and 
+              temporary files, so that the make doesn't get confused by mixing 
+              languages. Here's how we ask PilRC to compile the Spanish version 
+              and put it in folder &quot;sp&quot;:<br>
+              <span class="source">pilrc -L SPANISH i18n.rcp sp</span> </p>
+            <h4></h4>
+            <h4></h4>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/i18n.zip">ZIP</a> file.</p>
+            <p>This app shows a simple form with a date, a time, a number, a string, 
+              a popup trigger and a number with separators for thousands and decimals. 
+              We will internationalize our app for date, time and number formats 
+              and localize it in English, Spanish and French.</p>
+            <p>In i18n.h:</p>
+            <p> 
+            <ul>
+              <li>define DateFormatString as 1000</li>
+              <li>define TimeFormatString as... well... it's up to you</li>
+              <li>define ThousandString</li>
+              <li>define DecimalString</li>
+            </ul>
+            <p>In i18n.rcp: </p>
+            <p> 
+            <ul>
+              <li>in the English version, add <span class="source">&quot;AboutAlertMessage&quot; 
+                = &quot;This is a demonstration of internationalization for PalmOS.\n&quot;</span></li>
+              <li>also in English, add <span class="source">&quot;Thousand&quot;</span> 
+                which equals <span class="source">&quot;,&quot;</span> and <span class="source">&quot;Decimal&quot;</span> 
+                which equals <span class="source">&quot;.&quot;</span></li>
+              <li>in French, add <span class="source">&quot;Time: &quot; = </span><span class="source">&quot;Heure 
+                : &quot;</span> and <span class="source">&quot;Number: &quot; 
+                = </span><span class="source">&quot;Num&eacute;ro : &quot;</span></li>
+              <li>same language, <span class="source">"AboutAlertMessage" = "Cette 
+                application est une demonstration du procédé d'internationalisation 
+                pour PalmOS.\n"</span></li>
+              <li>also in French, Thousand and Decimal equal <span class="source">&quot;.&quot;</span> 
+                and <span class="source">&quot;,&quot;</span> respectively</li>
+              <li>in Spanish, <span class="source">"Time: "</span> translates 
+                to <span class="source">"Hora : "</span> and <span class="source">"Number: 
+                "</span> to <span class="source">"Número : "</span> </li>
+              <li>same language, <span class="source">"AboutAlertMessage" = "Esta 
+                aplicación es una demostración del proceso de internacionalización 
+                para plataforma Palm.\n"</span></li>
+              <li>Thousand and Decimal must be like in French</li>
+              <li>after the last alert box, add the following literals:<br>
+                <span class="source">STRING DateFormatString &quot;DateFormat&quot;<br>
+                STRING TimeFormatString &quot;TimeFormat&quot;<br>
+                STRING ThousandString &quot;Thousand&quot;<br>
+                STRING DecimalString &quot;Decimal&quot;</span></li>
+            </ul>
+            <p>In i18n.c:</p>
+            <p> 
+            <ul>
+              <li>add those globals:<br>
+                <span class="source">DateFormatType gDateFormat;<br>
+                TimeFormatType gTimeFormat;<br>
+                Char gThousand;<br>
+                Char gDecimal;</span></li>
+              <li>get current date and time: <span class="source">TimSecondsToDateTime(TimGetSeconds(), 
+                &dt);</span></li>
+              <li>get a local version of date: <span class="source">DateToAscii(dt.month, 
+                dt.day, dt.year, gDateFormat, str);</span></li>
+              <li>same for time: <span class="source">TimeToAscii(dt.hour, dt.minute, 
+                gTimeFormat, str);</span></li>
+              <li>same for number: <span class="source">StrLocalizeNumber(str, 
+                gThousand, gDecimal)</span></li>
+              <li>in AppStart(), get time format the same way we got date format 
+                (using <span class="source">TimeFormatString</span>)</li>
+              <li>get decimal separator like we got thousand separator (using 
+                <span class="source">DecimalString</span>) <br>
+              </li>
+            </ul>
+            Make the app and test it in all three languages! (The Makefile will 
+            generate 3 .prc's - one for each language) 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/i18n.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/i18n-eng.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/i18n-esp.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/i18n-fra.gif" width="160" height="160" alt="Palm Tutorial"></p>
+            <p align="center">Next topic <a href="beam.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/i18n.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:02 GMT -->
+</html>

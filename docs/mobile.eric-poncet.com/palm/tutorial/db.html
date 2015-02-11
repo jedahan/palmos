@@ -1,0 +1,334 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/db.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:55 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Database DB</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; DB</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            DB<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/db.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To perform common tasks on a database.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Palm data model</h5>
+            <p>In Palm OS, any file is a database. First off, let me put it clearly: 
+              &quot;database&quot; does NOT mean &quot;relational database&quot; 
+              nor RDBMS nor that you'll be able to use SQL commands! A Palm database 
+              is actually closer to a <span class="reverse">structured</span>, 
+              <span class="reverse">flexible</span> and <span class="reverse">mobile</span> 
+              binary data file (&quot;binary data file&quot; meaning &quot;similar 
+              to a typical .DAT file on a PC&quot;):</p>
+            <p> 
+            <ul>
+              <li>it is <span class="reverse">structured</span> because it has 
+                a header that contains information on the database itself, pompously 
+                called &quot;metadata&quot; (type, creator, version, backup flag, 
+                copy protection flag, read-only flag... )</li>
+              <li>it is <span class="reverse">flexible</span> because Palm OS 
+                deals with the physical organization of data and provides you 
+                with a set of API's for sorting records, changing various record-level 
+                attributes (Secret, Busy...), resizing a record...</li>
+              <li>it is <span class="reverse">mobile</span> because it offers 
+                native support for synchronization: if your mobile application 
+                has a desktop buddy (like DateBook, ToDoList, MemoPad) or a Web 
+                buddy (like AvantGo) then you'll need to do some extra coding 
+                to handle <b>record creations, updates and deletions</b>. You'll 
+                also have to develop a <span class="reverse">conduit</span> that 
+                plugs in to HotSync&reg; and does the sync job whenever the user 
+                fires HotSync&reg;. <i>Quick example:</i> <u>on Monday</u>, you 
+                <b>create Memo#22</b> in PalmDesktop on your workstation. <u>On 
+                Tuesday</u>, using your beloved Palm, you <b>update Memo#4</b> 
+                and <b>delete Memo#8</b>. <u>On Wednesday</u> you (finally) do 
+                a HotSync&reg; that will automagically: 
+                <ol>
+                  <li><b>copy the new Memo#22</b> from your workstation to your 
+                    Palm</li>
+                  <li><b>update the existing Memo#4</b> on your workstation so 
+                    that it reflects the update you made on your Palm</li>
+                  <li><b>delete Memo#8</b> from your workstation</li>
+                </ol>
+              </li>
+            </ul></p>
+            <p>There are different kinds of databases:</p>
+            <p> 
+            <ul>
+              <li>type <span class="reverse">DATA</span> is for a database that 
+                contains user or system data</li>
+              <li>type <span class="reverse">appl</span> is an application</li>
+              <li>type <span class="reverse">HACK</span> is a system extension, 
+                a.k.a. a hack</li>
+              <li>type <span class="reverse">Rsrc</span> is a resource file</li>
+            </ul>
+            You will need to supply this type either when you create a database, 
+            or when you want to look up for all the databases that have a certain 
+            type (like an app that reads DOC documents will get the list of all 
+            DOC databases and display it for the user to pick one DOC to open). 
+            <h5>Working with databases</h5>
+            <p>Here's a list of examples of how to call <span class="reverse">basic</span> 
+              APIs:</p>
+            <p> 
+            <ul>
+              <li><span class="source">DmCreateDatabase(dbCard, DBName, CreatorID, 
+                DBType, false)</span><span class="source"></span></li>
+              <li><span class="source">DmFindDatabase(dbCard, &quot;MyCoolestDB&quot;)</span><span class="source"></span></li>
+              <li><span class="source">DmOpenDatabase(dbCard, dbID, mode)</span></li>
+              <li><span class="source">DmOpenDatabaseByTypeCreator(DBType, CreatorID, 
+                dmModeReadWrite | dmModeShowSecret)</span></li>
+              <li><span class="source">DmCloseDatabase(db)</span></li>
+              <li><span class="source">DmOpenDatabaseInfo(db, &dbID, NULL, NULL, 
+                &dbCard, NULL)</span></li>
+              <li><span class="source">DmDatabaseInfo(dbCard, dbID, NULL, &attributes, 
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)</span></li>
+              <li><span class="source">DmSetDatabaseInfo(dbCard, dbID, NULL, &attributes, 
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)</span></li>
+            </ul>
+            <p>Among the very nice feedback I get from readers, Robert P. asked 
+              for more info on how to open a database, adding there was hardly 
+              any relevant literature on the subject. There ya go...</p>
+            <p>Most common way to open a DB is with <span class="source">DmOpenDatabaseByTypeCreator</span>. 
+              This is fine if your app has only one database (hence there's no 
+              ambiguity on the DB name) or if your app manages a collection of 
+              databases that have the same structure and that the user can create 
+              and delete on his own (think of a &quot;doc&quot; reader, a spreadsheet 
+              or project management app). In the latter case, you may invoke <span class="source">DmOpenDatabaseByTypeCreator</span> 
+              iteratively to build the list of existing DB's for your app and 
+              display it for the user to tap the one s/he wants to open.</p>
+            <p>On the other hand, if your application - say an invoicing app - 
+              needs to open your ClientsDB, OrdersDB, ItemsDB, then you'll probably 
+              enjoy calling <span class="source">DmFindDatabase(dbCard, &quot;ClientsDB&quot;)</span>, 
+              which returns the dbID, followed by <span class="source">DmOpenDatabase(dbCard, 
+              dbID, mode)</span>. You may ask &quot;Why's that?&quot;. This smart 
+              question deserves a smart answer :)</p>
+            <p> 
+            <ul>
+              <li>ClientsDB, OrdersDB, ItemsDB obviously have very different structures. 
+                This makes iterative use of <span class="source">DmOpenDatabaseByTypeCreator</span> 
+                more tricky because you need to do some extra coding to know what 
+                DB has been opened at the current iteration. If you DON'T, chances 
+                are your app will try to read a Client record from OrdersDB. Needless 
+                to say, this app will either behave in a bizarre way or (more 
+                likely) crash.</li>
+              <li>The invoicing app is responsible for creating each of the three 
+                DB's. The user can't create or delete a DB. This is good news, 
+                as we know the number of DB's in advance, as well as their names! 
+                We just need to <span class="source">DmFindDatabase</span> and 
+                <span class="source">DmOpenDatabase</span> each of our three databases 
+                and we're set :)</li>
+            </ul></p>
+            <p>Here's a set of API that are more specific to <span class="reverse">DB 
+              information, status, error codes</span>...:</p>
+            <p> 
+            <ul>
+              <li><span class="source">DmDatabaseSize(dbCard, dbID, NULL, &totalBytes, 
+                &dataBytes)</span></li>
+              <li><span class="source">DmNumRecords(db)</span></li>
+              <li><span class="source">DmGetDatabaseLockState(db, NULL, NULL, 
+                &locks)</span></li>
+              <li><span class="source">DmDatabaseProtect(dbCard, dbID, (locks 
+                > 0) ? false : true)</span></li>
+              <li><span class="source">DmGetLastErr()</span></li>
+            </ul>
+            <h5>Working with records</h5>
+            <p>APIs that deal with <span class="reverse">content of records</span>:</p>
+            <p> 
+            <ul>
+              <li><span class="source">DmQueryRecord(db, index)</span></li>
+              <li><span class="source">DmGetRecord(db, index)</span></li>
+              <li><span class="source">DmNewRecord(db, &index, sizeof(DBRecordType))</span></li>
+              <li><span class="source">DmWrite(recP, 0, &dbRecord, sizeof(DBRecordType))</span></li>
+              <li><span class="source">DmRemoveRecord(db, curRec)</span></li>
+            </ul>
+            <p>APIs that deal with <span class="reverse">attributes of records</span>: 
+            </p>
+            <ul>
+              <li><span class="source">DmReleaseRecord(db, index, true)</span></li>
+              <li><span class="source">DmRecordInfo(db, index, &attr, &uniqueID, 
+                NULL)</span></li>
+              <li><span class="source">DmSetRecordInfo(db, index, &attr, NULL) 
+                </span></li>
+            </ul>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/db.zip">ZIP</a> file.</p>
+            <p>This application gives the user the opportunity to browse a DB 
+              of items and add, modify, delete, lock, unlock, hide, show records.</p>
+            <p><b>Important:</b> the DB is NOT populated. You'll have to create 
+              records of your own by tapping [+] button.</p>
+            <p>In db.h:</p>
+            <p> 
+            <ul>
+              <li>add the following IDs:<br>
+                <span class="source">#define MainUniqueID 1001<br>
+                #define MainName 1002<br>
+                #define MainQuantity 1003<br>
+                #define MainAttrDelete 1004<br>
+                #define MainAttrDirty 1005<br>
+                #define MainAttrBusy 1006<br>
+                #define MainAttrSecret 1007</span> </li>
+            </ul>
+            <p>In db.rcp: </p>
+            <p> 
+            <ul>
+              <li> add 4 checkboxes:<br>
+                <span class="source">CHECKBOX &quot;Delete&quot; ID MainAttrDelete 
+                AT (PREVRIGHT PREVTOP 44 AUTO) DISABLED<br>
+                CHECKBOX &quot;Dirty&quot; ID MainAttrDirty AT (PREVRIGHT PREVTOP 
+                44 AUTO) DISABLED<br>
+                CHECKBOX &quot;Busy&quot; ID MainAttrBusy AT (PREVRIGHT PREVTOP 
+                44 AUTO) DISABLED<br>
+                CHECKBOX &quot;Secret&quot; ID MainAttrSecret AT (PREVRIGHT PREVTOP 
+                44 AUTO)</span></li>
+              <li>add 4 buttons, position them as they appear on the app's screenshot 
+                on top of this page:<br>
+                &quot;Update&quot; with ID MainUpdate<br>
+                &quot;Delete&quot; with ID MainDelete<br>
+                &quot;Lock&quot; with ID MainLock<br>
+                &quot;Unlock&quot; with ID MainUnlock</li>
+              <li>add 2 fields:<br>
+                <span class="source">FIELD ID MainDataBytes AT (PREVRIGHT PREVTOP 
+                30 AUTO) DISABLED NONEDITABLE MAXCHARS 5<br>
+                FIELD ID MainTotalBytes AT (PREVRIGHT PREVTOP 30 AUTO) DISABLED 
+                NONEDITABLE MAXCHARS 5 </span></li>
+            </ul>
+            <p>In db.c:</p>
+            <p> 
+            <ul>
+              <li>define <span class="reverse">CreatorID</span> as 'TuDb' (it's 
+                a double-word, so use single-quote)</li>
+              <li>define <span class="reverse">DBName</span> as &quot;TutorialDatabaseDB&quot; 
+                (it's a string, so use double-quote)</li>
+              <li>define <span class="reverse">DBType</span> as 'DATA'</li>
+              <li>declare <span class="reverse">dbID</span> as a static LocalID</li>
+              <li>in AppStart(), add this before the &quot;else&quot;:<br>
+                <span class="source">if (db = DmOpenDatabaseByTypeCreator(DBType, 
+                CreatorID, dmModeReadWrite | dmModeShowSecret))<br>
+                &nbsp;&nbsp;&nbsp;DmOpenDatabaseInfo(db, &amp;dbID, NULL, NULL, 
+                &amp;dbCard, NULL); </span></li>
+              <li>add that after the &quot;else&quot;, to <span class="reverse">create 
+                the DB</span>:<br>
+                <span class="source">if (retcode = DmCreateDatabase(0, DBName, 
+                CreatorID, DBType, false))<br>
+                &nbsp;&nbsp;&nbsp;return retcode;</span></li>
+              <li>add this whole block to force <span class="reverse">backup bit</span>. 
+                By doing so, we make sure our extremely-valuable DB will be backed 
+                up by HotSync&reg; :)<br>
+                <span class="source">DmOpenDatabaseInfo(db, &amp;dbID, NULL, NULL, 
+                &amp;dbCard, NULL);<br>
+                DmDatabaseInfo(dbCard, dbID, NULL, &amp;attributes, NULL, NULL, 
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL);<br>
+                attributes |= dmHdrAttrBackup;<br>
+                DmSetDatabaseInfo(dbCard, dbID, NULL, &amp;attributes, NULL, NULL, 
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL); </span></li>
+              <li>in AppStop(), <span class="reverse">close the DB</span> like 
+                this: <span class="source">DmCloseDatabase(db);</span></li>
+              <li>in SelectRecord(), <span class="reverse">query</span> the rec 
+                as follows: <span class="source">recH = (MemHandle)DmQueryRecord(db, 
+                index)</span></li>
+              <li><span class="reverse">unlock</span> the rec handle with a <span class="source">MemHandleUnlock(recH);</span></li>
+              <li>in UpdateRecord(), <span class="reverse">write</span> the record 
+                to the DB:<br>
+                <span class="source">recP = MemHandleLock(recH);<br>
+                DmWrite(recP, 0, &amp;dbRecord, sizeof(DBRecordType)); <br>
+                MemPtrUnlock(recP);</span> </li>
+              <li>in DeleteRecord(), do the <span class="reverse">remove</span>: 
+                <span class="source">(error = DmRemoveRecord(db, curRec)) == 0</span></li>
+              <li>in InsertRecord(), <span class="reverse">add</span> a rec and 
+                check if it worked<br>
+                <span class="source">if (!(recH = DmNewRecord(db, &amp;index, 
+                sizeof(DBRecordType))))<br>
+                {<br>
+                &nbsp;&nbsp;FrmCustomAlert(ErrorAlert, &quot;Unable to create 
+                record&quot;, &quot;&quot;, &quot;&quot;);<br>
+                &nbsp;&nbsp;return;<br>
+                }</span></li>
+              <li>in MainFormHandleEvent(), pop up the form that allows the user 
+                to input a new rec: <span class="source">FrmPopupForm(InsertForm);</span><br>
+              </li>
+            </ul>
+            That should be it. Make, run and test the app. 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/db.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/db.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;</p>
+            <p align="center">Next topic <a href="ui.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/db.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:56 GMT -->
+</html>

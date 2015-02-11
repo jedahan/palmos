@@ -1,0 +1,238 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/find.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:04 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Find / Global Find</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Find</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Find<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/find.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To add the &quot;find&quot; feature to your app, which means it'll 
+              be able to search and display its own data when the user taps the 
+              &quot;Find&quot; button on the silkscreen to launch a global search.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Find? Okay... But... Find WHAT?</h5>
+            <p>Palm OS provides the user with a very convenient feature: the capability 
+              to search for a textual pattern throughout ALL the applications 
+              that are installed on the device.</p>
+            <h5>Search? Alrite... But HOW to search?</h5>
+            <p>You like asking relevant questions don't you? As this &quot;find&quot; 
+              thing is an OS feature, there's a pretty well-defined process to 
+              implement it into your app:</p>
+            <p> 
+              <ol>
+                
+              <li>user taps <span class="reverse">Find</span> button on silkscreen</li>
+                
+              <li>Palm OS launches each installed app (one after another) with 
+                <span class="reverse">sysAppLaunchCmdSaveData</span> launch code</li>
+                
+              <li>Apps that are &quot;find-enabled&quot; have the opportunity 
+                to <span class="reverse">commit any pending change.</span> Other 
+                apps will probably ignore this launch</li>
+                
+              <li>Palm OS relaunches each app with <span class="reverse">sysAppLaunchCmdFind</span> 
+                launch code and a <span class="reverse">GoToParamsPtr</span> in 
+                the parameters block</li>
+                
+              <li>Apps that have this &quot;find&quot; feature will look up their 
+                own database, streams, preferences... More generally: <span class="reverse">any 
+                datasource that makes sense to scan</span></li>
+                
+              <li>Such an app will use FindDrawHeader() to display its title into 
+                the <span class="reverse">results dialog</span></li>
+                
+              <li>The app will then <span class="reverse">loop thru its records</span></li>
+                
+              <li><span class="reverse">For each match</span> detected by TxtFindString(), 
+                the app will call FindSaveMatch(), FindGetLineBounds() to know 
+                <span class="reverse">where to display the match</span> on results 
+                dialog and do a WinDrawTruncChars() to <span class="reverse">actually 
+                display the match</span>...</li>
+                
+              <li>When the search is running, when it's done or when the display 
+                dialog is full, the user may <span class="reverse">tap a specific 
+                match</span> that appears on the results dialog</li>
+                
+              <li>If the user tapped, Palm launches the appropriate app with a 
+                <span class="reverse">sysAppLaunchCmdGoTo</span> launch code. 
+                It's up to this app to <span class="reverse">show the record</span> 
+                that generated the match</li>
+                <li>Phew!!!!</li>
+              </ol>
+            <h4></h4>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/find.zip">ZIP</a> file.</p>
+            <p>In find.h:</p>
+            <p> 
+            <ul>
+              <li>there ain't nothin' to do!</li>
+            </ul>
+            <p>In find.rcp: </p>
+            <p> 
+            <ul>
+              <li> add a LABEL for "Last Name"</li>
+              <li>add a FIELD for &quot;last Name&quot;</li>
+              <li>add the MENUITEM of each missing buddy in the menu</li>
+              <li>make sure our app goes to category named &quot;Tutorial&quot; 
+                upon installation</li>
+            </ul>
+            <p>In find.c:</p>
+            <p> 
+            <ul>
+              <li>in SaveData(), add <span class="source">PrefSetAppPreferences(CreatorID, 
+                0, VersionID, &curRec, sizeof(curRec), true);</span> to save DB 
+                cursor in app preferences</li>
+              <li>in LookFor(), call <span class="source">FindDrawHeader(params, 
+                "Tutorial")</span></li>
+              <li>add code to search on last name (look at code to search on first 
+                name)</li>
+              <li>add what it takes to save match: <span class="source">FindSaveMatch(params, 
+                rec, pos, fld, length, card, dbID)</span></li>
+              <li>gets the bounds where you'll be able to display the match: <span class="source">FindGetLineBounds(params, 
+                &rect);</span></li>
+              <li>add code to display last name rite after first name</li>
+              <li>increment line counter: <span class="source">params->lineNumber++;</span></li>
+              <li>add <span class="source">params->more = false;</span> to let 
+                OS know the search is over for our app</li>
+              <li>in GoTo(), add <span class="source">curRec = params->recordNum;</span> 
+                to get record number into our local variable named &quot;curRec&quot;</li>
+              <li>add each of those launch codes where appropriate (be careful, 
+                they're intentionally not in the same order as they should appear 
+                in the app): 
+                <ul>
+                  <li>sysAppLaunchCmdGoTo</li>
+                  <li>sysAppLaunchCmdSaveData</li>
+                  <li>sysAppLaunchCmdFind</li>
+                  <li>sysAppLaunchCmdNormalLaunch<br>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            Make the app, browse its records, launch any other app, start a &quot;find&quot; 
+            on &quot;Jim&quot;. You should get 2 matches with our app. Tap one 
+            of them. Our app will display it. 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/find.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <table border="1" cellspacing="0" cellpadding="0" align="center" width="20%">
+              <tr> 
+                <td bgcolor="#CCCCCC" colspan="2"> 
+                  <div align="center"><font size="-2"><b>Our DB contains several 
+                    records, two of which contain &quot;Jim&quot;.</b><br>
+                    (Our app displays them)</font></div>
+                </td>
+              </tr>
+              <tr> 
+                <td valign="middle" align="center" width="50%" nowrap><img src="../screens/find3.gif" width="160" height="160" alt="Palm Tutorial"></td>
+                <td valign="middle" align="center" width="50%" nowrap><img src="../screens/find4.gif" width="160" height="160" alt="Palm Tutorial"></td>
+              </tr>
+            </table>
+            <br>
+            <table width="30%" border="1" cellspacing="0" cellpadding="0" align="center">
+              <tr> 
+                <td bgcolor="#CCCCCC" width="33%"> 
+                  <div align="center"><font size="-2"><b>User launches find</b><br>
+                    (OS fires find dialog)</font></div>
+                </td>
+                <td bgcolor="#CCCCCC" width="34%"> 
+                  <div align="center"><font size="-2"><b>Palm OS sends &quot;find&quot; 
+                    request to each app</b><br>
+                    (OS displays results)</font></div>
+                </td>
+                <td bgcolor="#CCCCCC" width="34%"> 
+                  <div align="center"><font size="-2"><b>User taps &quot;Jim Foo&quot; 
+                    </b><br>
+                    (Our app receives a GoTo for this record) </font></div>
+                </td>
+              </tr>
+              <tr> 
+                <td valign="middle" align="center" width="50%" nowrap><img src="../screens/find.gif" width="160" height="160" alt="Palm Tutorial"></td>
+                <td valign="middle" align="center" width="50%" nowrap><img src="../screens/find2.gif" width="160" height="160" alt="Palm Tutorial"></td>
+                <td valign="middle" align="center" width="50%" nowrap><img src="../screens/find4.gif" width="160" height="160" alt="Palm Tutorial"></td>
+              </tr>
+            </table>
+            <p align="center">Next topic<a href="congratulations.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/find.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:56:05 GMT -->
+</html>

@@ -1,0 +1,199 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/hello.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:50 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Hello World</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Hello</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Hello<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/hello.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To write, compile and test your first Palm application.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Structure of a palm application</h5>
+            <p>First, you need to include your <span class="reverse">definition 
+              file(s)</span> for the app and the <span class="reverse">system 
+              file(s)</span> related to the APIs and data structures you use from 
+              the SDK.</p>
+            <p><span class="source">#include &quot;hello.h&quot;<br>
+              #include &lt;System/SystemPublic.h&gt;<br>
+              #include &lt;UI/UIPublic.h&gt;</span></p>
+            <p>The equivalent to C's main() is PilotMain: <span class="source">UInt32 
+              PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags)</span>. 
+              The arguments are somewhat equivalent to C's argc and argv. They 
+              specify which event fired the app. In <i>hello</i>, we will only 
+              deal with the most basic <span class="reverse">LaunchMode</span>: 
+              <span class="source">sysAppLaunchCmdNormalLaunch</span>. Other modes 
+              are presented further in this tutorial.</p>
+            <p> We will open our main form with <span class="source">FrmGotoForm(Form1)</span> 
+              and enter an &quot;infinite&quot; loop that will manage <span class="reverse">system, 
+              menu, form and user events</span>. This loop will actually terminate 
+              when the user leaves the app or if there's any critical error. Here's 
+              the body of this loop: </p>
+            <p class="source"> <span class="source">EvtGetEvent(&amp;e, 100);<br>
+              </span><span class="source"><br>
+              if (SysHandleEvent(&amp;e)) <br>
+              &nbsp;&nbsp;&nbsp;continue;<br>
+              <br>
+              if (MenuHandleEvent((void *)0, &amp;e, &amp;err)) <br>
+              &nbsp;&nbsp;&nbsp;continue;<br>
+              <br>
+              switch (e.eType) <br>
+              {<br>
+              &nbsp;&nbsp;&nbsp;case ctlSelectEvent:...<br>
+              &nbsp;&nbsp;&nbsp;case frmLoadEvent:...<br>
+              &nbsp;&nbsp;&nbsp;case appStopEvent:...<br>
+              &nbsp;&nbsp;&nbsp;case frmOpenEvent:...<br>
+              &nbsp;&nbsp;&nbsp;case menuEvent:...<br>
+              &nbsp;&nbsp;&nbsp;default:<br>
+              <span class="source">}</span></span></p>
+            <p>When the user quits the app, we do an <span class="source">FrmCloseAllForms()</span> 
+              and <span class="source">return 0</span>.</p>
+            <h5>Resources </h5>
+            <p>A well-written app should not include any UI element inside its 
+              source code. Those guys must be stored elsewhere: in a <span class="reverse">resource 
+              file</span>. PilRC uses .rcp as an extension in the filename. Once 
+              you have a clear idea of how your UI is going to look like, just 
+              fire your favorite text editor, describe your resources (menus, 
+              forms, buttons, images...), save the file as a .rcp and compile 
+              it with PilRC. Once you understand how to create a resource file, 
+              you may want to use a more visual way of doing it, such as PilRCEdit.</p>
+            <h5>Compiling</h5>
+            <p>The <span class="reverse">makefile</span> is included. Here's what 
+              it does for you:</p>
+            <p> 
+            <ul>
+              <li>compile the .c into a .o with <span class="reverse">gcc</span></li>
+              <li>compile the .rcp into a collection of .bin with <span class="reverse">pilrc</span></li>
+              <li>combines the .o and .bin into a .prc with <span class="reverse">build-prc</span></li>
+            </ul>
+            <h5>Testing</h5>
+            <p>You may double-click on hello.prc that you just compiled, and then 
+              run HotSync, which will load &quot;Hello&quot; on your device. This 
+              is the easiest way, but also not the quickest. When you develop 
+              an app, you have to test it over and over again. HotSync takes sometime 
+              to run, which will significantly slow down the development process. 
+              The other way of testing an app is to load it on the <span class="reverse">Palm 
+              OS Emulator</span> (aka POSE). This tool emulates both the processor 
+              and ROM of a device. You must download POSE as well as the ROMs 
+              of the devices you need to emulate.</p>
+            <p>Once you have POSE running, just drag and drop hello.prc and click 
+              on the Hello icon in the emulator.</p>
+            <p>Please note that all the applications of this tutorial will be 
+              stored in a <span class="reverse">specific category</span> in the 
+              PalmOS Launcher. Just like you have 'Main', 'System', 'Utilities', 
+              'Unfiled'... You'll have a brand new category named... Guess what?... 
+              <span class="reverse">'Tutorial'</span> #:-}</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/hello.zip">ZIP</a> file.</p>
+            <p>As it's your first Palm app, your task will be easy.</p>
+            <p>In the resource file, you need to add:</p>
+            <p> 
+            <ul>
+              <li>the title of the form</li>
+              <li>a label with the smiley</li>
+              <li>an ICON clause that tells PilRC which bitmap is used as an icon 
+                in the Palm launcher</li>
+            </ul>
+            <p>In the C file, you should:</p>
+            <p> 
+            <ul>
+              <li>include the .h file</li>
+              <li>declare an EventType variable named "e"</li>
+              <li>add a call to FrmGotoForm(Form1)</li>
+              <li>add a call to EvtGetEvent(&e, 100)</li>
+              <li>add a call to FrmSetActiveForm(FrmInitForm(e.data.frmLoad.formID))</li>
+              <li>add a call to FrmGetActiveForm() and store the result into pfrm 
+              </li>
+              <li>add a call to FrmDrawForm() passing pfrm as an argument</li>
+              <li>clean up when the user quits the app, by calling FrmCloseAllForms()</li>
+            </ul>
+            <p>Lastly, in the makefile, replace all occurences of MY_APP with 
+              hello.prc. </p>
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/hello.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/hello.gif" width="160" height="160" alt="Palm Tutorial"></p>
+            <p align="center">Next topic <a href="forms.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/hello.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:51 GMT -->
+</html>

@@ -1,0 +1,274 @@
+<html><!-- #BeginTemplate "/Templates/main.dwt" --><!-- DW6 -->
+
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/forms.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:51 GMT -->
+<head>
+
+<!-- #BeginEditable "doctitle" --> 
+<title>Palm Tutorial Forms</title>
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="http://mobile.eric-poncet.com/common/main.css">
+     
+</head>
+
+<body bgcolor="#FFFFFF" marginwidth="0" bgproperties=fixed leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr valign="top" align="center"> 
+    <td align="right" valign="top" height="100"> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" height="100">
+        <tr> 
+          <td valign="top" width="75%" colspan="2"><!-- #BeginEditable "breadcrumb" --><span class="breadcrumb"><a href="http://mobile.eric-poncet.com/frames.html" target="_top">Home</a> 
+            &gt; Palm &gt; <a href="index.html">Tutorial</a> &gt; Forms</span><!-- #EndEditable --></td>
+          <td valign="top" height="100" width="25%" rowspan="2"> 
+            <div align="right"> <!-- #BeginEditable "image" --><img src="http://mobile.eric-poncet.com/common/palm.gif" width="83" height="100"><!-- #EndEditable -->&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td valign="top" width="25%">&nbsp;</td>
+          <td valign="top" align="center" width="50%" class="text"><font face="Verdana, Arial, Helvetica, sans-serif" size="+2"><b><!-- #BeginEditable "title" -->Palm 
+            Tutorial<br>
+            Forms<!-- #EndEditable --></b></font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="left" valign="middle"> 
+    <td> 
+      <table width="100%" border="0" cellspacing="0" cellpadding="8" height="100%">
+        <tr align="left" valign="middle" bgcolor="#FFFFFF"> 
+          <td class="text"> <!-- #BeginEditable "content" --> 
+            <h4 align="center"><img src="../screens/forms.gif" width="160" height="160" alt="Palm Tutorial"></h4>
+            <h4><img src="http://mobile.eric-poncet.com/common/target.gif" width="32" height="32" align="absmiddle">&nbsp;Objective</h4>
+            <p>To design, write, compile and test forms and the piece of code 
+              that handles user interaction.</p>
+            <h4><img src="http://mobile.eric-poncet.com/common/gears.gif" width="32" height="32" align="absmiddle">&nbsp;Concepts</h4>
+            <h5>Creating labelz, buttonz, fieldz...</h5>
+            <p>If you're used to developing windowed apps for PC, Mac or any other 
+              platform, then designing your first Palm form shouldn't be a problem. 
+              <span class="reverse">PilRC User Manual</span> is the doc to refer 
+              to, should you need more details. Basically, you will &quot;write&quot; 
+              the .rcp file using your favorite text editor, compile it, link 
+              it to the compiled source code of your app, and get a beautiful 
+              .prc file that you can hotsync to your device or run on POSE.</p>
+            <p>Positioning items on a form may use either <span class="reverse">absolute</span> 
+              values (like 50, 100) or <span class="reverse">relative</span> values 
+              (like CENTER, PREVBOTTOM+2). I'd suggest that relative mode be used 
+              as much as possible because it's more flexible and makes updates 
+              easier.</p>
+            <h5>Writing the .rcp file</h5>
+            <p>Here's the big picture.</p>
+            <p>Define all the IDs of your controls, buttons, etc in a .h file, 
+              which will be #included in both your .rcp and .c files. This .h 
+              makes sure that the app and the form(s) use the <span class="reverse">same 
+              resource IDs</span></p>
+            <p>In your editor, create the .rcp file, include the .h, and give 
+              your form the following structure:</p>
+            <p><span class="source">FORM ID Form1 AT (2 2 156 156) USABLE MODAL 
+              HELPID Help1<br>
+              BEGIN<br>
+              &nbsp;&nbsp;TITLE &quot;Forms 1/4 (Modal)&quot;</span><br>
+              <span class="source">&nbsp;&nbsp;LABEL &quot;This is a label&quot; 
+              AUTOID AT (CENTER 20) FONT 1</span><br>
+              <span class="source">&nbsp;&nbsp;BUTTON &quot;Next&quot; ID Next 
+              AT (CENTER PREVBOTTOM+10 AUTO AUTO) FRAME<br>
+              &nbsp;&nbsp;BUTTON &quot;Exit&quot; ID Exit AT (CENTER@120 PREVTOP 
+              AUTO AUTO)<br>
+              END</span></p>
+            <p>This says that we want a form with just one label, a Next button 
+              and Exit button. <span class="reverse">Labels do not communicate</span> 
+              with the app, so we don't assign them any ID, neither do we mention 
+              them in the .h file. On the other hand, <span class="reverse">buttons 
+              may send events</span> to our app, or our app may want to change 
+              a button's setting. That's why buttons, controls, etc. will be assigned 
+              IDs in our .h file.</p>
+            <h5>Writing code that handles form and control events</h5>
+            <p>Here's the overview of who can send what event, and what should 
+              be done. Variable &quot;e&quot; is our event.</p>
+            <table width="100%" border="1" cellspacing="0" cellpadding="2">
+              <tr bgcolor="#CCCCCC"> 
+                <td><font size="-2">Sender</font></td>
+                <td><font size="-2">Event</font></td>
+                <td><font size="-2">Meaning</font></td>
+                <td><font size="-2">Action</font></td>
+              </tr>
+              <tr align="left" valign="top"> 
+                <td><font size="-2">Form manager</font></td>
+                <td><font size="-2">frmLoadEvent</font></td>
+                <td><font size="-2">Form has been loaded</font></td>
+                <td><font size="-2">FrmSetActiveForm(FrmInitForm(e.data.frmLoad.formID))</font></td>
+              </tr>
+              <tr align="left" valign="top"> 
+                <td><font size="-2">Form manager</font></td>
+                <td><font size="-2">frmOpenEvent</font></td>
+                <td><font size="-2">Form has been opened</font></td>
+                <td><font size="-2">FrmDrawForm(...)</font></td>
+              </tr>
+              <tr align="left" valign="top"> 
+                <td><font size="-2">Control</font></td>
+                <td><font size="-2">ctlSelectEvent</font></td>
+                <td><font size="-2">User tapped control</font></td>
+                <td><font size="-2">if (e.data.ctlSelect.controlID == Next)<br>
+                  ...<br>
+                  if (e.data.ctlSelect.controlID == Exit)<br>
+                  ...</font></td>
+              </tr>
+              <tr align="left" valign="top"> 
+                <td><font size="-2">Control</font></td>
+                <td><font size="-2">ctlRepeatEvent</font></td>
+                <td><font size="-2">User tapped control and maintained stylus 
+                  on control </font></td>
+                <td><font size="-2">if (e.data.ctlRepeat.controlID == Form3Minus)<br>
+                  ...<br>
+                  if (e.data.ctlRepeat.controlID == Form3Plus)<br>
+                  ... </font></td>
+              </tr>
+            </table>
+            <p>This handler is part of the &quot;endless&quot; loop started in 
+              PilotMain. </p>
+            <h4> <img src="http://mobile.eric-poncet.com/common/lightoff.gif" width="32" height="32" align="absmiddle">&nbsp;Exercise</h4>
+            <p>Download the <a href="../exercises/forms.zip">ZIP</a> file.</p>
+            <p>In this app, not all controls will generate event. For the sake 
+              of simplicity, those controls will not have IDs.</p>
+            <p>In forms.h:</p>
+            <p> 
+            <ul>
+              <li>add ID Next (value 9001)</li>
+              <li>add ID Exit (value 9002)</li>
+            </ul>
+            <p>In forms.rcp: </p>
+            <p> 
+            <ul>
+              <li>in Form1, assign value <span class="source">Forms 1/4 (Modal)</span> 
+                to TITLE</li>
+              <li>give a position of <span class="source">CENTER 20</span> to 
+                the first label</li>
+              <li>give a position of <span class="source">CENTER@50 PREVBOTTOM+10</span> 
+                and a size of <span class="source">AUTO AUTO</span> to &quot;Next&quot; 
+                button </li>
+              <li>define Exit button as follows: <span class="source">BUTTON "Exit" 
+                ID Exit AT (CENTER@120 PREVTOP AUTO AUTO)</span> </li>
+              <li>in Form2, add a <span class="source">PUSHBUTTON "2nd" ID 2012 
+                AT (CENTER@80 PREVTOP AUTO AUTO) GROUP 1</span></li>
+              <li>add the first checkbox: <span class="source">CHECKBOX "Unchecked" 
+                ID 2021 AT (CENTER@50 PREVBOTTOM+2 AUTO AUTO)</span></li>
+              <li>in Form3, add a <span class="source">POPUPTRIGGER "Continent" 
+                ID 2040 AT (CENTER@40 PREVBOTTOM+2 AUTO AUTO)</span></li>
+              <li>add a popup list like this: <span class="source">LIST "Europe" 
+                "America" "Asia" "Africa" "Oceania" ID 2041 AT (PREVLEFT PREVTOP 
+                52 1) VISIBLEITEMS 3 NONUSABLE</span></li>
+              <li>link this popuptrigger to its list: <span class="source">POPUPLIST 
+                ID 2040 2041</span></li>
+              <li>add a list like <span class="source">LIST "English" "Spanish" 
+                "German" "French" ID 2042 AT (CENTER@120 PREVTOP 52 1) VISIBLEITEMS 
+                2</span></li>
+              <li>add a <span class="source">REPEATBUTTON "-" ID Form3Minus AT 
+                (CENTER@50 PREVBOTTOM+2 AUTO AUTO)</span> that the user will use 
+                to decrement a value</li>
+              <li>add a field to hold the value: <span class="source">FIELD ID 
+                Form3Count AT (CENTER@80 PREVTOP 24 AUTO) NONEDITABLE UNDERLINED 
+                MAXCHARS 4</span></li>
+              <li>insert a superb image: <span class="source">FORMBITMAP AT (80-(32/2) 
+                PREVBOTTOM+2) BITMAP Bitmap</span></li>
+              <li>in Form4, add a <span class="source">TABLE Table AT (CENTER 
+                PREVBOTTOM+4 80 90) ROWS 8 COLUMNS 2 COLUMNWIDTHS 20 60</span></li>
+              <li>lastly, in Alert1, add a <span class="source">MESSAGE "Nothin' 
+                special :)\n"</span></li>
+            </ul>
+            <p>In forms.c:</p>
+            <p> 
+            <ul>
+              <li>include the .h</li>
+              <li>in UpdateCount, add this block of code to update and refresh 
+                the counter: <br>
+                <span class="source">frm = FrmGetActiveForm();<br>
+                obj = FrmGetObjectIndex(frm, Form3Count);<br>
+                fld = (FieldPtr)FrmGetObjectPtr(FrmGetActiveForm(), obj);<br>
+                h = (VoidHand)FldGetTextHandle(fld);<br>
+                if( h == NULL )<br>
+                {<br>
+                &nbsp;&nbsp;h = MemHandleNew (FldGetMaxChars(fld)+10);<br>
+                &nbsp;&nbsp;ErrFatalDisplayIf( !h, &quot;No Memory&quot;);<br>
+                }<br>
+                <br>
+                p = (CharPtr) MemHandleLock (h);<br>
+                StrIToA(p, cnt);<br>
+                MemHandleUnlock (h);<br>
+                <br>
+                FldSetTextHandle (fld, (Handle)h);<br>
+                FldDrawField(fld);</span></li>
+              <li>in UpdateTable, add <span class="source">TblSetRowUsable(table, 
+                i, true);</span></li>
+              <li>in PilotMain, handle the &quot;Next&quot; event with this code:<br>
+                <span class="source">if (e.data.ctlSelect.controlID == Next)<br>
+                {<br>
+                &nbsp;&nbsp;if (f &lt; FormLast)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrmGotoForm(++f);<br>
+                }</span></li>
+              <li>handle &quot;+&quot; button as follows:<br>
+                <span class="source">if (e.data.ctlRepeat.controlID == Form3Plus)<br>
+                {<br>
+                &nbsp;&nbsp;if (cnt &lt; MAX_COUNT)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateCount(+1);<br>
+                }</span> </li>
+              <li>set active form with a call to <span class="source">FrmSetActiveForm(FrmInitForm(e.data.frmLoad.formID));</span></li>
+              <li>draw it: <span class="source">FrmDrawForm(pfrm);</span></li>
+              <li>close the forms when you leave the app: <span class="source">FrmCloseAllForms();</span></li>
+            </ul>
+            Make the app and test it! 
+            <h4><img src="http://mobile.eric-poncet.com/common/lighton.gif" width="32" height="32" align="absmiddle">&nbsp;Solution</h4>
+            <p>Here's the <a href="../solutions/forms.zip">ZIP</a> file.</p>
+            <p>And here's how the app should like:</p>
+            <p align="center"><img src="../screens/forms.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/forms2.gif" width="160" height="160" alt="Palm Tutorial"><br>
+              <img src="../screens/forms3.gif" width="160" height="160" alt="Palm Tutorial">&nbsp;<img src="../screens/forms4.gif" width="160" height="160" alt="Palm Tutorial"></p>
+            <p align="center">Next topic <a href="menu.html"><img src="http://mobile.eric-poncet.com/common/next.gif" width="32" height="32" align="absmiddle" border="0"></a></p>
+            <!-- #EndEditable --></td>
+        </tr>
+        <tr align="left" valign="middle" bgcolor="#FFFFFF">
+          <td class="text">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr align="right" valign="bottom"> 
+    <td height="50"> 
+      <div align="center"><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ 
+          Copyright &copy; <font color="#999999">2000</font>-<font color="#999999"><?=date("Y")?></font> <a href="http://www.eric-poncet.fr/" target="_blank">Eric Poncet</a> - <a href="http://" style="text-decoration: none"><font color="#999999">All</font></a> <font color="#999999">rights</font> <a href="http://www.eric-poncet.fr/" style="text-decoration: none"><font color="#999999">reserved</font></a> ]<br>
+          <br>
+        [ 
+        <a href="http://www.pbs-consultant.com/" style="text-decoration: none"><font color="#999999">PBS Consultant</font></a> - <a href="http://www.pbs-transport.com/" style="text-decoration: none"><font color="#999999">PBS Transport</font></a> - <a href="http://www.pgmmaintenance.com/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a> - <a href="http://www.pgmmaintenance.fr/" style="text-decoration: none"><font color="#999999">PGM Maintenance</font></a>  ]<br>
+        <br>
+[ 
+      <a href="http://www.depannage-ecran.com/" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;cran</font></a> - <a href="http://www.maintenance-ecran.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;cran</font></a> - <a href="http://www.reparation-ecran.net/" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;cran </font></a> ]<br>
+[ <a href="http://www.depannage-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage &eacute;lectronique</font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">  - <a href="http://www.maintenance-electronique.net/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance &eacute;lectronique</font></a> - <a href="http://www.reparation-electronique.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration &eacute;lectronique</font></a> ]</font><br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.depannage-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">D&eacute;pannage variateur </font><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"> - </font></a><font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999"><a href="http://www.maintenance-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">Maintenance variateur </font></a></font> - <a href="http://www.reparation-variateur.com/" target="_blank" style="text-decoration: none"><font color="#999999">R&eacute;paration variateur </font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft</font></a> <a href="http://blog.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Blog</font></a> <a href="http://forum.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Forum</font></a> <a href="http://mail.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Mail</font></a> <a href="http://web.linguasoft.com/" target="_blank" style="text-decoration: none"><font color="#999999">Linguasoft Web</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-comedie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de com&eacute;die musicale </font></a> - <a href="http://www.lars.fr/stage-musiques-actuelles.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de musiques actuelles </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/colonie-musicale.php" target="_blank" style="text-decoration: none"><font color="#999999">Colonie musicale </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage d'accord&eacute;on</font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de tango</font></a> ]</font>        <br>
+        <font size="-2" face="Verdana, Arial, Helvetica, sans-serif" color="#999999">[ <a href="http://www.lars.fr/stage-funk.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de funk </font></a> - <a href="http://www.lars.fr/stage-metal.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de metal </font></a> - <a href="http://www.lars.fr/stage_de_musique/tango.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-accordeon.php" target="_blank" style="text-decoration: none"><font color="#999999"></font></a><a href="http://www.lars.fr/stage-pop.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de pop</font></a> - <a href="http://www.lars.fr/stage-reggae.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de reggae </font></a> - <a href="http://www.lars.fr/stage-rock.php" target="_blank" style="text-decoration: none"><font color="#999999">Stage de rock </font></a> ]</font>        <br>
+      <font size="-7">&nbsp; </font></div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td bgcolor="#FFFFDD" width="36%">
+            <div align="center"></div>
+          </td>
+          <td bgcolor="#FFEEBB" width="29%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="15%">&nbsp;</td>
+          <td bgcolor="#FFBB88" width="14%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="6%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFEEBB" width="36%">&nbsp;</td>
+          <td bgcolor="#FFDDAA" width="29%">&nbsp; </td>
+          <td bgcolor="#FFBB88" width="15%">&nbsp;</td>
+          <td bgcolor="#FFAA77" width="14%">&nbsp;</td>
+          <td bgcolor="#FF9966" width="6%">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+<!-- Mirrored from mobile.eric-poncet.com/palm/tutorial/forms.html by HTTrack Website Copier/3.x [XR&CO'2013], Wed, 11 Feb 2015 21:55:53 GMT -->
+</html>
