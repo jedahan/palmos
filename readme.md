@@ -1,5 +1,6 @@
-This is how to get up and running with a PalmOS 2.0 development environment
+# PalmOS development
 
+This is how to get up and running with a PalmOS 2.0 development environment
 
 [Install docker](https://docs.docker.com/installation/#installation)
 
@@ -21,3 +22,4 @@ Copy to your favorite emulator (I prefer [PHEM](https://play.google.com/store/ap
 
     sudo adb push src/example/hello.prc /sdcard/phem/card
 
+If you are interested in how I built the images, check out the readmes on [jedahan/debian-sarge](https://registry.hub.docker.com/u/jedahan/debian-sarge/) and [jedahan/palmos](https://registry.hub.docker.com/u/jedahan/palmos/)
