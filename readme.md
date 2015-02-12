@@ -5,8 +5,7 @@ Make sure to install [docker](http://docker.io)
 
 Then `docker build` will create a fresh image of debian sarge with all the utilities and sdk to build your own palm pilot software.
 
-To test that it works, `cd example && make && exit` in the docker shell.
+To build a fresh copy of the example program (**src/example/hello.prc**), just run `make`.
 
-Copy the newly build program to your current folder with `docker cp jedahan/palmos:/root/example/hello.prc .`
 
 Now, copy to whatever palm emulator you want to run, and see if it works!
