@@ -11,8 +11,9 @@ test:
 hello.prc: 
 	docker run -v $(CWD)/src/example:$(EXAMPLE) -w $(EXAMPLE) -t $(CONTAINER):latest make
 
+# needs sudo!
 debian-sarge:
-	sudo debootstrap --arch=i386 sarge $(ROOTFS) http://archive.debian.org/debian/
+	debootstrap --arch=i386 sarge $(ROOTFS) http://archive.debian.org/debian/
 	rm -rf $(ROOTFS)/{dev,proc}
 	mkdir -p $(ROOTFS){dev,proc}
 	mkdir -p $(ROOTFS)/etc
