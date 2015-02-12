@@ -22,4 +22,4 @@ Copy to your favorite emulator (I prefer [PHEM](https://play.google.com/store/ap
 
     sudo adb push src/example/hello.prc /sdcard/phem/card
 
-If you are interested in how I built the images, check out the readmes on [jedahan/debian-sarge](https://registry.hub.docker.com/u/jedahan/debian-sarge/) and [jedahan/palmos](https://registry.hub.docker.com/u/jedahan/palmos/)
+If you are interested in how I built the [jedahan/debian-sarge](https://registry.hub.docker.com/u/jedahan/debian-sarge/) and [jedahan/palmos](https://registry.hub.docker.com/u/jedahan/palmos/) images, take a look at the [Makefile](Makefile).
