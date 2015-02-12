@@ -2,3 +2,4 @@
 src/example/*.bin
 src/example/*.o
 src/example/hello
+src/example/hello.prc
