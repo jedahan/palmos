@@ -18,9 +18,7 @@ debian-sarge:
 	mkdir -p $(ROOTFS){dev,proc}
 	mkdir -p $(ROOTFS)/etc
 	cp /etc/resolv.conf $(ROOTFS)/etc/
-	cd $(ROOTFS)
-	tar --numeric-owner -caf $(ROOTFS)/rootfs.tar.xz -C $(ROOTFS) --transform='s,^./,,' .
-	cd $(CWD)
+	tar --numeric-owner -caf rootfs.tar.xz -C $(ROOTFS) --transform='s,^./,,' .
 	cat > $(ROOTFS)/Dockerfile <<EOF
 	FROM scratch
 	ADD rootfs.tar.xz /
