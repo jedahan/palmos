@@ -15,7 +15,7 @@ define DOCKERFILE
 FROM scratch
 ADD rootfs.tar.xz /
 endef
-
+export DOCKERFILE
 # needs sudo!
 debian-sarge:
 	debootstrap --arch=i386 sarge $(ROOTFS) http://archive.debian.org/debian/
@@ -24,9 +24,11 @@ debian-sarge:
 	mkdir -p $(ROOTFS)/etc
 	cp /etc/resolv.conf $(ROOTFS)/etc/
 	tar --numeric-owner -caf rootfs.tar.xz -C $(ROOTFS) --transform='s,^./,,' .
+	rm -rf $(ROOTFS)/*
 	cp rootfs.tar.xz $(ROOTFS)/
 	echo "$$DOCKERFILE" >> $(ROOTFS)/Dockerfile
 	docker build -t $(USER)/debian-sarge $(ROOTFS)
+	-rm -f $(ROOTFS)/rootfs.tar.xz
 		
 palmos:
 	docker build -t $(USER)/palmos .
