@@ -11,6 +11,11 @@ test:
 hello.prc: 
 	docker run -v $(CWD)/src/example:$(EXAMPLE) -w $(EXAMPLE) -t $(CONTAINER):latest make
 
+define DOCKERFILE
+FROM scratch
+ADD rootfs.tar.xz /
+endef
+
 # needs sudo!
 debian-sarge:
 	debootstrap --arch=i386 sarge $(ROOTFS) http://archive.debian.org/debian/
@@ -19,10 +24,8 @@ debian-sarge:
 	mkdir -p $(ROOTFS)/etc
 	cp /etc/resolv.conf $(ROOTFS)/etc/
 	tar --numeric-owner -caf rootfs.tar.xz -C $(ROOTFS) --transform='s,^./,,' .
-	cat > $(ROOTFS)/Dockerfile <<EOF
-	FROM scratch
-	ADD rootfs.tar.xz /
-	EOF
+	cp rootfs.tar.xz $(ROOTFS)/
+	echo "$$DOCKERFILE" >> $(ROOTFS)/Dockerfile
 	docker build -t $(USER)/debian-sarge $(ROOTFS)
 		
 palmos:
