@@ -23,12 +23,12 @@ debian-sarge:
 	mkdir -p $(ROOTFS){dev,proc}
 	mkdir -p $(ROOTFS)/etc
 	cp /etc/resolv.conf $(ROOTFS)/etc/
+	-rm -f $(ROOTFS)/rootfs.tar.xz
 	tar --numeric-owner -caf rootfs.tar.xz -C $(ROOTFS) --transform='s,^./,,' .
-	rm -rf $(ROOTFS)/*
+	-rm -rf $(ROOTFS)/*
 	cp rootfs.tar.xz $(ROOTFS)/
 	echo "$$DOCKERFILE" >> $(ROOTFS)/Dockerfile
 	docker build -t $(USER)/debian-sarge $(ROOTFS)
-	-rm -f $(ROOTFS)/rootfs.tar.xz
 		
 palmos:
 	docker build -t $(USER)/palmos .
