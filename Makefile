@@ -1,15 +1,12 @@
 CONTAINER = jedahan/palmos
-EXAMPLE = /root/example
 ROOTFS = /var/tmp/rootfs
+TMP = /var/tmp
 CWD = $(shell pwd)
 
-all: hello.prc
+all: hello.prc giraffe.prc ui.prc
 
-test:
-	echo $(CWD)/src/example
-
-hello.prc: 
-	docker run -v $(CWD)/src/example:$(EXAMPLE) -w $(EXAMPLE) -t $(CONTAINER):latest make
+%.prc:
+	docker run -v $(CWD)/src:$(TMP) -w $(TMP)/$(@:.prc=) -t $(CONTAINER):latest make
 
 define DOCKERFILE
 FROM scratch
@@ -34,10 +31,10 @@ palmos:
 	docker build -t $(USER)/palmos .
 
 phem:
-	sudo adb push src/example/hello.prc /sdcard/phem/card/
+	sudo adb push src/*/*.prc /sdcard/phem/card/
 
 .PHONY: clean
 
 clean:
-	-rm -f src/example/*{bin,prc}
+	-rm -f src/*/*{bin,prc}
 	-rm -rf $(ROOTFS)
