@@ -3,7 +3,9 @@ CFLAGS = -O2 -palmos3.5
 APP = $(notdir $(shell pwd))
 DEPS = $(APP).rcp $(APP).h $(APP).bmp
 
-all: $(APP) bin.stamp
+all: $(APP).prc
+
+%.prc: % bin.stamp
 	build-prc $@ "Hello World!" TuHe $< *.bin
 
 %: %.o
