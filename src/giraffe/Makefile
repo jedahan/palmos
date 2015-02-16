@@ -1,6 +1,6 @@
 CC = m68k-palmos-gcc
 CFLAGS = -O2 -palmos3.5
-APP = hello
+APP = giraffe
 DEPS = $(APP).rcp $(APP).h $(APP).bmp
 
 all: $(APP).prc
