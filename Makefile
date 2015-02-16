@@ -5,7 +5,7 @@ CWD = $(shell pwd)
 
 all: hello.prc giraffe.prc ui.prc
 
-%.prc:
+%.prc: src/%/Makefile
 	docker run -v $(CWD)/src:$(TMP) -w $(TMP)/$(@:.prc=) -t $(CONTAINER):latest make
 
 define DOCKERFILE

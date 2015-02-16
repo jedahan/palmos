@@ -1,9 +1,7 @@
 CC = m68k-palmos-gcc
 CFLAGS = -O2 -palmos3.5
 
-all: ui.prc
-
-ui.prc: ui bin.stamp
+all: ui bin.stamp
 	build-prc ui.prc "UI" TuUi ui *.bin
 
 ui: ui.o
