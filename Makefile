@@ -2,8 +2,9 @@ CONTAINER = jedahan/palmos
 ROOTFS = /var/tmp/rootfs
 TMP = /var/tmp
 CWD = $(shell pwd)
+DEPS = hello.prc giraffe.prc ui.prc
 
-all: hello.prc giraffe.prc ui.prc
+all: $(DEPS)
 
 %.prc: src/%/Makefile
 	docker run -v $(CWD)/src:$(TMP) -w $(TMP)/$(@:.prc=) -t $(CONTAINER):latest make
