@@ -1,0 +1,249 @@
+/*****************************************************************************\
+*                                                                             *
+* Project       : Mobile development tutorial                                 *
+* Application   : Demonstration of user interface development                 *
+* Component     : Resources                                                   *
+* Author        : Eric Poncet (mobile.eric-poncet.com)                        *
+* Creation      : 08/20/2000                                                  *
+*                                                                             *
+*******************************************************************************
+*                                                                             *
+* History       :                                                             *
+*                                                                             *
+\*****************************************************************************/
+
+
+#include "ui.h"
+
+FONT ID FunFont 		FONTID FunFontID 		"fun.txt"
+FONT ID ReverseFont 	FONTID ReverseFontID 	"reverse.txt"
+FONT ID SmileyFont 		FONTID SmileyFontID 	"smiley.txt"
+
+BITMAP        	ID MonoBitmap 				"photomono.bmp" COMPRESS
+BITMAPGREY    	ID Grey4Bitmap 				"photogrey4.bmp" COMPRESS
+BITMAPGREY16  	ID Grey16Bitmap				"photogrey16.bmp" COMPRESS
+BITMAPCOLOR   	ID Color256Bitmap			"photocolor256.bmp" COMPRESS
+BITMAPCOLOR   	ID Color256WithTableBitmap	"photocolor256.bmp" COLORTABLE
+BITMAPCOLOR16K  ID Color16KBitmap			"photocolor16k.bmp" COMPRESS
+
+BITMAPFAMILY	ID SliderBackground	"sliderbmono.bmp" "sliderbgrey4.bmp" "sliderbgrey16.bmp" "sliderbcolor.bmp" TRANSPARENCY 255 0 0 COMPRESS
+BITMAPFAMILY	ID SliderThumb	"slidertmono.bmp" "slidertgrey4.bmp" "slidertgrey16.bmp" "slidertcolor.bmp" TRANSPARENCY 255 0 0 COMPRESS
+
+STRINGTABLE ID StringTableArdipithecusStr 		"A. " "ramidus kadabba -5.6M" "ramidus -4.4M"
+STRINGTABLE ID StringTableAustralopithecusStr	"A. " "anamensis -4.2M" "afarensis -3.9M" "africanus -3.2M" "boisei -2.1M" "robustus -2M"
+STRINGTABLE ID StringTableHomoStr 				"H. " "habilis -2.5M" "erectus -1.8M" "sapiens -250K" "sapiens neanderthalensis -150K" "sapiens sapiens -120K"
+STRINGTABLE ID ScrollStr	"" "Apple" "Apricot" "Banana" "Cherry" "Grape" "Grapefruit" "Lemon" "Lime" "Orange" "Peach" "Pear" "Plum"
+
+FORM ID MainForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "User Interface"
+
+	LABEL "Tap menu" AUTOID AT (CENTER 50) FONT 2
+	LABEL "and" AUTOID AT (CENTER 70) FONT 2
+	LABEL "select UI object" AUTOID AT (CENTER 90) FONT 2
+	LABEL "to test" AUTOID AT (CENTER 110) FONT 2
+END
+
+FORM ID FontForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Font"
+
+	LABEL "Fun Font: " AUTOID AT (CENTER 30) FONT 1
+	LABEL "Be Creative" AUTOID AT (CENTER PREVBOTTOM+4) FONT FunFontID
+
+	LABEL "Reverse Font: " AUTOID AT (CENTER PREVBOTTOM+10) FONT 1
+	LABEL "ABCDEF" AUTOID AT (CENTER PREVBOTTOM+4) FONT 0
+	LABEL "ABCDEF" AUTOID AT (CENTER PREVBOTTOM-3) FONT ReverseFontID
+
+	LABEL "Smiley Font: " AUTOID AT (CENTER PREVBOTTOM+10) FONT 1
+	LABEL "\001\002" AUTOID AT (CENTER PREVBOTTOM+4) FONT SmileyFontID
+END
+
+FORM ID BitmapForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Bitmap"
+
+	LABEL "Mono" AUTOID AT (CENTER@30 20) FONT 0
+	LABEL "4 Grey" AUTOID AT (CENTER@80 20) FONT 0
+	LABEL "16 Grey" AUTOID AT (CENTER@130 20) FONT 0
+
+	LABEL "112 bytes" AUTOID AT (CENTER@30 70) FONT 0
+	LABEL "312 bytes" AUTOID AT (CENTER@80 PREVTOP) FONT 0
+	LABEL "620 bytes" AUTOID AT (CENTER@130 PREVTOP) FONT 0
+
+	FORMBITMAP AT (30-(50/2) 35) BITMAP MonoBitmap
+	FORMBITMAP AT (80-(50/2) PREVTOP) BITMAP Grey4Bitmap
+	FORMBITMAP AT (130-(50/2) PREVTOP) BITMAP Grey16Bitmap
+
+	LABEL "256 Col" AUTOID AT (CENTER@30 90) FONT 0
+	LABEL "256 Col&Tbl" AUTOID AT (CENTER@80 90) FONT 0
+	LABEL "16K Col" AUTOID AT (CENTER@130 90) FONT 0
+
+	LABEL "884 bytes" AUTOID AT (CENTER@30 140) FONT 0
+	LABEL "2792 bytes" AUTOID AT (CENTER@80 PREVTOP) FONT 0
+	LABEL "3524 bytes" AUTOID AT (CENTER@130 PREVTOP) FONT 0
+
+	FORMBITMAP AT (30-(50/2) 105) BITMAP Color256Bitmap
+	FORMBITMAP AT (80-(50/2) PREVTOP) BITMAP Color256WithTableBitmap
+	FORMBITMAP AT (130-(50/2) PREVTOP) BITMAP Color16KBitmap
+END
+
+FORM ID SelectorForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Selector"
+	
+	LABEL "Day: " AUTOID AT (RIGHT@80 60) FONT 1
+	SELECTORTRIGGER "Pick me" SelectorDay AT (PREVRIGHT PREVTOP-2 60 AUTO) USABLE LEFTANCHOR FONT 2
+		
+	LABEL "Time: " AUTOID AT (RIGHT@80 80) FONT 1
+	SELECTORTRIGGER "Pick me" SelectorTime AT (PREVRIGHT PREVTOP-2 60 AUTO) USABLE LEFTANCHOR FONT 2
+
+	LABEL "Start/End: " AUTOID AT (RIGHT@80 100) FONT 1
+	SELECTORTRIGGER "Pick me" SelectorStartEnd AT (PREVRIGHT PREVTOP-2 60 AUTO) USABLE LEFTANCHOR FONT 2
+END
+
+FORM ID StringTableForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "StringTable"
+	
+	POPUPTRIGGER "Pick one!" ID StringTablePopup AT (CENTER 18 AUTO AUTO)
+	LIST "Ardipithecus" "Australopithecus" "Homo" ID StringTableList AT (PREVLEFT PREVTOP AUTO AUTO) VISIBLEITEMS 3 NONUSABLE
+	POPUPLIST ID StringTablePopup StringTableList
+
+	LABEL "M=Million Years Before Present" AUTOID AT (10 25+8) FONT 0
+	LABEL "K=Thousand Years Before Present" AUTOID AT (10 PREVBOTTOM) FONT 0
+END
+
+FORM ID GraffitiForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Graffiti"
+
+	LABEL "Graffiti State Indicator: " AUTOID AT (CENTER 50) FONT 1
+	LABEL "[" AUTOID AT (70 PREVBOTTOM+8) FONT 2
+	GRAFFITISTATEINDICATOR  AT (76 PREVTOP+2)  
+	LABEL "]" AUTOID AT (88 PREVTOP-2) FONT 2
+
+	LABEL "Enter text with Graffiti: " AUTOID AT (CENTER 90) FONT 1
+	FIELD GraffitiField AT (CENTER PREVBOTTOM+8 100 AUTO) LEFTALIGN EDITABLE UNDERLINED MAXCHARS 10
+END
+
+FORM ID ScrollForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Scroll"
+	
+	LABEL "Why don't you scroll this?" AUTOID AT (CENTER 30) FONT 1
+	FIELD ID ScrollField AT (40 60 80 60) FONT 0 UNDERLINED MAXCHARS 256 MULTIPLELINES HASSCROLLBAR
+	SCROLLBAR ID ScrollBar AT (PREVRIGHT+7 PREVTOP 7 PREVHEIGHT) VALUE 0 MIN 0 MAX 7 PAGESIZE 1
+END
+
+FORM ID SliderForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Slider"
+	
+	LABEL "Move cursor to change shape" AUTOID AT (CENTER 20) FONT 1
+	SLIDER ID SliderSlider AT (10 PREVBOTTOM+4 140 30) FEEDBACK THUMBID SliderThumb BACKGROUNDID SliderBackground VALUE 0 MIN 0 MAX SliderMax PAGESIZE 1
+END
+
+FORM ID ProgressForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Progress"
+	
+	BUTTON "Run Quick Task" ID ProgressQuick AT (CENTER 60 AUTO AUTO) BOLDFRAME
+	BUTTON "Run Slow Task" ID ProgressSlow AT (CENTER 100 AUTO AUTO) BOLDFRAME	
+END
+
+FORM ID GadgetForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "Gadget"
+
+	LABEL "Tap gadget" AUTOID AT (CENTER 40) FONT 1
+	LABEL "to reverse animation" AUTOID AT (CENTER PREVBOTTOM) FONT 1
+	GADGET ID GadgetGadget AT (CENTER 90 GadgetWidth GadgetHeight) USABLE
+END
+
+MENU ID MainMenu
+BEGIN
+    PULLDOWN "Object"
+    BEGIN
+		MENUITEM "Font"   		ID MainObjectFontCmd		
+		MENUITEM "Bitmap"   	ID MainObjectBitmapCmd		
+		MENUITEM "Selector"		ID MainObjectSelectorCmd	
+		MENUITEM "StringTable"	ID MainObjectStringTableCmd	
+		MENUITEM "Graffiti"		ID MainObjectGraffitiCmd	
+		MENUITEM "Scroll" 		ID MainObjectScrollCmd	
+		MENUITEM "Slider"   	ID MainObjectSliderCmd		
+		MENUITEM "Progress"   	ID MainObjectProgressCmd		
+		MENUITEM "Gadget"   	ID MainObjectGadgetCmd		
+    END
+
+    PULLDOWN "Options"
+    BEGIN
+		MENUITEM "Help" 		ID MainOptionsHelpCmd	"H"
+      	MENUITEM SEPARATOR
+		MENUITEM "About" 		ID MainOptionsAboutCmd	"A"
+    END
+END
+
+ALERT ID HelpAlert
+INFORMATION
+BEGIN
+  TITLE "Help"
+  MESSAGE "This app provides a collection of UI object, each of whom is accessible from the menu bar.\n"
+  BUTTONS "OK"
+END
+
+ALERT ID AboutAlert
+INFORMATION
+BEGIN
+  TITLE "About User Interface"
+  MESSAGE "This is a demonstration of user interface programming for PalmOS.\n"\
+          "-----------\n" \
+		  "Eric Poncet\n"\
+		  "mobile.eric-poncet.com\n"\
+		  "Freeware"
+  BUTTONS "OK"
+END
+
+ALERT ID RomIncompatibleAlert
+ERROR
+BEGIN
+  TITLE "System Incompatible"
+  MESSAGE "System Version 2.0 or greater is required to run this application."
+  BUTTONS "Ok"
+END
+
+ALERT ID ErrorAlert
+ERROR
+BEGIN
+  TITLE "Error!"
+  MESSAGE "^1\n^2\n^3"
+  BUTTONS "Ok"
+END
+
+ICONFAMILY "uimono.bmp" "uigrey4.bmp" "uigrey16.bmp" "uicolor.bmp" TRANSPARENCY 255 0 0
+
+SMALLICONFAMILY "uimonosmall.bmp" "uigrey4small.bmp" "uigrey16small.bmp" "uicolorsmall.bmp" TRANSPARENCY 255 0 0
+
+VERSION 1 "1.0.0"
+
+LAUNCHERCATEGORY ID 1000 "Tutorial"
