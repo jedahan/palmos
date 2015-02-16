@@ -33,6 +33,11 @@ debian-sarge:
 palmos:
 	docker build -t $(USER)/palmos .
 
+phem:
+	sudo adb push src/example/hello.prc /sdcard/phem/card/
+
+.PHONY: clean
+
 clean:
 	-rm -f src/example/*{bin,prc}
 	-rm -rf $(ROOTFS)
