@@ -4,3 +4,4 @@
 #define Ok 		9999
 #define Alert	 	1000
 #define Help 		1000
+#define alertInfo 	3000	
