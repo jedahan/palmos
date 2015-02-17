@@ -1,12 +1,9 @@
 CC = m68k-palmos-gcc
 CFLAGS = -O2 -palmos3.5
 APP = $(notdir $(shell pwd))
-DEPS = $(APP).rcp $(APP).h $(APP).bmp
 
-all: $(APP).prc
-
-%.prc: % bin.stamp
-	build-prc $@ "Hello World!" TuHe $< *.bin
+all: $(APP) bin.stamp
+	build-prc $(APP).prc $(APP) TuHe $< *.bin
 
 %: %.o
 	$(CC) $(CFLAGS) -o $@ $<
@@ -14,7 +11,7 @@ all: $(APP).prc
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-bin.stamp: $(DEPS)
+bin.stamp: $(APP).rcp $(APP).h $(APP).bmp
 	pilrc $<
 
 .PHONY: clean
