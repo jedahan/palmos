@@ -36,6 +36,7 @@ phem:
 
 .PHONY: clean
 
-clean:
-	-rm -f src/*/*{bin,prc}
-	-rm -rf $(ROOTFS)
+clean: $(DEPS:.prc=-clean)
+
+%-clean:
+	docker run -v $(CWD)/src:$(TMP) -w $(TMP)/$(@:-clean=) -t $(CONTAINER):latest make clean
