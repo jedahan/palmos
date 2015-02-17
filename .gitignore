@@ -2,3 +2,6 @@
 **bin
 **o
 **prc
+src/ui/ui
+src/hello/hello
+src/giraffe/giraffe
