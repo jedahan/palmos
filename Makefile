@@ -38,6 +38,7 @@ push: $(DEPS:.prc=-push)
 	sudo adb push src/$(@:-push=)/$(@:-push=.prc) /sdcard/phem/card/
 
 clean: $(DEPS:.prc=-clean)
+.PHONY: clean
 
 %-clean:
 	docker run -v $(CWD)/src:$(TMP) -w $(TMP)/$(@:-clean=) -t $(CONTAINER):latest make clean
