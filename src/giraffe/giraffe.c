@@ -40,7 +40,7 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
     while(1){
       EvtGetEvent(&e, 100);
       if (SysHandleEvent(&e)) { continue; }
-      if (MenuHandleEvent((void *)0, &e, &err)) { continue; }
+      if (MenuHandleEvent(NULL, &e, &err)) { continue; }
       switch (e.eType) {
 
         case keyDownEvent:
