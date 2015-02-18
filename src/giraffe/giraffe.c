@@ -5,14 +5,14 @@
 
 // many thanks to 
 // https://github.com/Gaoithe/bgttoolbox/blob/bc47eb94b70ce1712d073ad3a92e7f69c5927341/jcoPalm/MusicScreen/MusicScreen.c
-static void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
+const void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
   char buf[MAX_STRING_LENGTH];
   int l=0;
   l+=StrPrintF(buf+l, "%s %s:%d\n", __FUNCTION__, __FILE__, __LINE__);
   FrmCustomAlert(alertInfo, buf, ARGSTR1, ARGSTR2);
 }
 
-static void showKey(Char letter){
+const void showKey(Char letter){
   char buf[8];
   StrPrintF(buf, "char %c\n",letter);
   DEBUGBOX("keyDownEvent\n", buf);
