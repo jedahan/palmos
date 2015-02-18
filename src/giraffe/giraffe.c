@@ -12,10 +12,9 @@ void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
   FrmCustomAlert(alertInfo, buf, ARGSTR1, ARGSTR2);
 }
 
-void showKey(WChar letter){
+void showKey(Char letter){
   char buf[8];
   StrPrintF(buf, "char %c\n",letter);
-  buf[8]=0;
   DEBUGBOX("keyDownEvent\n", buf);
 }
 
