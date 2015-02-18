@@ -1,12 +1,12 @@
 #include "giraffe.h"
 #include <System/SystemPublic.h>
 #include <UI/UIPublic.h>
-
+#define MAX_STRING_LENGTH 1000
 
 // many thanks to 
 // https://github.com/Gaoithe/bgttoolbox/blob/bc47eb94b70ce1712d073ad3a92e7f69c5927341/jcoPalm/MusicScreen/MusicScreen.c
 void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
-  char buf[1000];
+  char buf[MAX_STRING_LENGTH];
   int l=0;
   l+=StrPrintF(buf+l, "%s %s:%d\n", __FUNCTION__, __FILE__, __LINE__);
   FrmCustomAlert(alertInfo, buf, ARGSTR1, ARGSTR2);
