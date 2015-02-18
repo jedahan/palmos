@@ -13,11 +13,10 @@ void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
 }
 
 void showKey(WChar letter){
-  char buf[1000];
-  int l=0;
-  l+=StrPrintF(buf+l, " char: %c\n",letter);
-  buf[l]=0;
-  DEBUGBOX("keyDownEvent", buf);
+  char buf[8];
+  StrPrintF(buf, "char %c\n",letter);
+  buf[8]=0;
+  DEBUGBOX("keyDownEvent\n", buf);
 }
 
 UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
