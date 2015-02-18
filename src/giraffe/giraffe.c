@@ -27,6 +27,11 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
   Char *text;
   FieldType *pfld;
   Char *sentence = "zaza";
+  UInt16 x;
+  UInt16 y;
+  UInt16 dx;
+  Char letter[2];
+  RectangleType rect;
 
   MemHandle *mInput;
   Char *pInput;
@@ -37,6 +42,9 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
   if (cmd == sysAppLaunchCmdNormalLaunch) {
     FrmGotoForm(Giraffe);
     offset=0;
+    x = 20;
+    y = 120;
+    dx = 1;
     while(1){
       EvtGetEvent(&e, 100);
       if (SysHandleEvent(&e)) { continue; }
@@ -46,7 +54,8 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
         case keyDownEvent:
           if(e.data.keyDown.chr == sentence[offset]){
             offset++;
-            if(offset == 4){ showKey('!'); }
+            StrPrintF(letter, "%c", sentence[offset]);
+            if(offset == StrLen(sentence)){ showKey('!'); }
           }
           break;
 
@@ -63,13 +72,21 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
         case frmOpenEvent:
           pfrm = FrmGetActiveForm();
-          obj = FrmGetObjectIndex(pfrm, GraffitiField);
+          StrPrintF(letter, "%c", sentence[offset]);
           FrmDrawForm(pfrm);
           break;
 
         case appStopEvent:
           goto _quit;
 
+        case nilEvent:
+          if(offset < StrLen(sentence)){
+            WinDrawChars(letter, 1, x, y);
+            x = x + dx;
+            if(x > 150 || x < 20){
+              dx *= -1;
+            }
+          }
         default:
         _default:
           if (FrmGetActiveForm())
