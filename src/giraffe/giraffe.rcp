@@ -1,28 +1,49 @@
 #include "giraffe.h"
 
-FORM ID Giraffe AT (0 0 160 160)
+FORM ID GraffitiForm AT (0 0 160 160)
 USABLE
-HELPID Help
+MENUID MainMenu
 BEGIN
 	TITLE "MEEP"
-
-	FORMBITMAP  AT (8 20) BITMAP 2005
-	LABEL "I AM GIRAFFE" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+	LABEL "I AM GIRAFFE" AUTOID AT (CENTER 20) FONT 1
 	LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
-	GRAFFITISTATEINDICATOR AT (CENTER PREVBOTTOM+1)
 	LABEL "giraffe says" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
 	LABEL "spell zaza" ID LastLetter AT (CENTER PREVBOTTOM+1) FONT 0
 END
 
-ALERT ID alertInfo INFORMATION
+
+FORM ID WinForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
+BEGIN
+	TITLE "HAPPY!"
+	LABEL "" AUTOID AT (CENTER 20) FONT 1
+	LABEL "You know graffiti!" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+	FORMBITMAP AT (60 PREVBOTTOM+1) BITMAP 2005
+	LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+	LABEL "Now don't get caught" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+	LABEL "by the popo!" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+END
+
+ALERT ID Alert INFORMATION
 BEGIN
 	TITLE "InFo!"
 	MESSAGE "^1^2^3"
 	BUTTONS "OK"
 END
 
-STRING Help "Many thanks to Eric Poncet\n"\
-"  http://mobile.eric-poncet.com\n"
+ALERT ID HelpAlert 
+BEGIN
+  TITLE "About"
+  MESSAGE "by Jonathan Dahan\n"\
+  "  jonathan@jonathan.is\n"\
+  "  http://jonathan.is\n"\
+  "\n"\
+  "Many thanks to:\n"\
+  "  Eric Poncet\n"\
+  "mobile.eric-poncet.com\n"
+  BUTTONS "OK"
+END
 
 ICON "giraffe.bmp"
 
