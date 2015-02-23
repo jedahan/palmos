@@ -3,6 +3,9 @@
 #include <UI/UIPublic.h>
 #define MAX_STRING_LENGTH 1000
 
+UInt16 offset = 0;
+Char *sentence = "zaza";
+
 // many thanks to 
 // https://github.com/Gaoithe/bgttoolbox/blob/bc47eb94b70ce1712d073ad3a92e7f69c5927341/jcoPalm/MusicScreen/MusicScreen.c
 const void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
@@ -18,33 +21,46 @@ const void showKey(Char letter){
   DEBUGBOX("keyDownEvent\n", buf);
 }
 
+typedef struct {
+  UInt16 x;
+  UInt16 y;
+  UInt16 dx;
+  UInt16 dy;
+  Char letter[2];
+} Sprite;
+
+typedef Sprite *SpritePtr;
+
+const void updateSprite(SpritePtr sprite){
+  sprite->x += sprite->dx;
+  sprite->y += sprite->dy;
+  if(sprite->x > 150 || sprite->x < 20){ sprite->dx *= -1; }
+  if(sprite->y > 150 || sprite->y < 20){ sprite->dy *= -1; }
+  StrPrintF(sprite->letter, "%c", sentence[offset]);
+}
+
+const void drawSprite(SpritePtr sprite){
+  IndexedColorType saveColor;
+  RectangleType rect = { {sprite->x - 1, sprite->y - 1}, {10, 10} };
+
+  saveColor = WinSetForeColor(UIColorGetTableEntryIndex(UIFieldBackground));
+  WinSetForeColor(0);
+  WinDrawRectangle(&rect, 0);
+  WinSetForeColor(saveColor);
+  WinDrawChars(sprite->letter, 1, sprite->x, sprite->y);
+}
+
 UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
   short err;
   EventType e;
   FormType *pfrm;
   UInt16 obj;
-  UInt16 offset;
-  Char *text;
   FieldType *pfld;
-  Char *sentence = "zaza";
-  UInt16 x;
-  UInt16 y;
-  UInt16 dx;
-  Char letter[2];
-  RectangleType rect;
-
-  MemHandle *mInput;
-  Char *pInput;
-  MemHandle *mOutput;
-  Char *pOutput;
+  Sprite nextLetter = {20, 120, 1, 0, NULL};
 
   // Make sure only react to NormalLaunch, not Reset, Beam, Find, GoTo...
   if (cmd == sysAppLaunchCmdNormalLaunch) {
     FrmGotoForm(Giraffe);
-    offset=0;
-    x = 20;
-    y = 120;
-    dx = 1;
     while(1){
       EvtGetEvent(&e, 100);
       if (SysHandleEvent(&e)) { continue; }
@@ -54,7 +70,6 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
         case keyDownEvent:
           if(e.data.keyDown.chr == sentence[offset]){
             offset++;
-            StrPrintF(letter, "%c", sentence[offset]);
             if(offset == StrLen(sentence)){ showKey('!'); }
           }
           break;
@@ -72,7 +87,6 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
         case frmOpenEvent:
           pfrm = FrmGetActiveForm();
-          StrPrintF(letter, "%c", sentence[offset]);
           FrmDrawForm(pfrm);
           break;
 
@@ -81,11 +95,8 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
         case nilEvent:
           if(offset < StrLen(sentence)){
-            WinDrawChars(letter, 1, x, y);
-            x = x + dx;
-            if(x > 150 || x < 20){
-              dx *= -1;
-            }
+            updateSprite(&nextLetter);
+            drawSprite(&nextLetter);
           }
         default:
         _default:
