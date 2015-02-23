@@ -40,8 +40,9 @@ const void updateSprite(SpritePtr sprite){
 }
 
 const void drawSprite(SpritePtr sprite){
+  UInt16 width = FntCharsWidth( sprite->letter, StrLen( sprite->letter ) );
   IndexedColorType saveColor;
-  RectangleType rect = { {sprite->x - 1, sprite->y - 1}, {10, 10} };
+  RectangleType rect = { {sprite->x - 1, sprite->y - 1}, { width+2, 10} };
 
   saveColor = WinSetForeColor(UIColorGetTableEntryIndex(UIFieldBackground));
   WinSetForeColor(0);
