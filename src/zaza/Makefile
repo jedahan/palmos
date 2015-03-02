@@ -4,6 +4,7 @@ APP = $(notdir $(shell pwd))
 
 all: $(APP) bin.stamp
 	build-prc $(APP).prc $(APP) TuHe $< *.bin
+	make clean
 
 %: %.o
 	$(CC) $(CFLAGS) -o $@ $<

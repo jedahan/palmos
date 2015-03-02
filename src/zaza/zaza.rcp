@@ -1,4 +1,4 @@
-#include "giraffe.h"
+#include "zaza.h"
 
 FORM ID GraffitiForm AT (0 0 160 160)
 USABLE
@@ -45,12 +45,10 @@ BEGIN
   BUTTONS "OK"
 END
 
-ICON "giraffe.bmp"
+ICON "zaza.bmp"
 
-SMALLICON "giraffesmall.bmp"
+SMALLICON "zazasmall.bmp"
 
-BITMAP ID 2005 "giraffe.bmp" 
+BITMAP ID 2005 "zaza.bmp"
 
 VERSION 1 "1.0.0"
-
-LAUNCHERCATEGORY ID 1000 "Bard"

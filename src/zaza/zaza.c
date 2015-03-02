@@ -1,4 +1,4 @@
-#include "giraffe.h"
+#include "zaza.h"
 #include <System/SystemPublic.h>
 #include <UI/UIPublic.h>
 #define MAX_STRING_LENGTH 1000
@@ -46,10 +46,10 @@ const void drawSprite(SpritePtr sprite){
   IndexedColorType saveColor;
   RectangleType rect = { {sprite->x - 1, sprite->y - 1}, { width+2, 10} };
 
-  saveColor = WinSetForeColor(UIColorGetTableEntryIndex(UIFieldBackground));
-  WinSetForeColor(0);
+//  saveColor = WinSetForeColor(1);
+//  WinSetForeColor(0);
   WinDrawRectangle(&rect, 0);
-  WinSetForeColor(saveColor);
+//  WinSetForeColor(saveColor);
   WinDrawChars(sprite->letter, 1, sprite->x, sprite->y);
 }
 
