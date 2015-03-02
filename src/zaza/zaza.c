@@ -26,7 +26,7 @@ typedef struct {
   UInt16 y;
   UInt16 dx;
   UInt16 dy;
-  Char letter[2];
+  Char letter[4];
 } Sprite;
 
 typedef Sprite *SpritePtr;
@@ -38,19 +38,11 @@ const void updateSprite(SpritePtr sprite){
   sprite->y += sprite->dy;
   if(sprite->x > 150 || sprite->x < 20){ sprite->dx *= -1; }
   if(sprite->y > 150 || sprite->y < 20){ sprite->dy *= -1; }
-  StrPrintF(sprite->letter, "%c", sentence[offset]);
+  StrPrintF(sprite->letter, " %c ", sentence[offset]);
 }
 
 const void drawSprite(SpritePtr sprite){
-  UInt16 width = FntCharsWidth( sprite->letter, StrLen( sprite->letter ) );
-  IndexedColorType saveColor;
-  RectangleType rect = { {sprite->x - 1, sprite->y - 1}, { width+2, 10} };
-
-//  saveColor = WinSetForeColor(1);
-//  WinSetForeColor(0);
-  WinDrawRectangle(&rect, 0);
-//  WinSetForeColor(saveColor);
-  WinDrawChars(sprite->letter, 1, sprite->x, sprite->y);
+  WinDrawChars(sprite->letter, 3, sprite->x, sprite->y);
 }
 
 static Boolean GraffitiFormHandleEvent(EventPtr event){
