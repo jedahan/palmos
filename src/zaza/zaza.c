@@ -31,7 +31,7 @@ typedef struct {
 
 typedef Sprite *SpritePtr;
 
-Sprite nextLetter = {20, 120, 1, 0, NULL};
+Sprite nextLetter = {20, 120, 2, 0, NULL};
 
 const void updateSprite(SpritePtr sprite){
   sprite->x += sprite->dx;
