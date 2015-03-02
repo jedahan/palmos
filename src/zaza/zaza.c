@@ -129,7 +129,7 @@ static void AppEventLoop(void){
   EventType event;
   short error;
   do {
-    EvtGetEvent(&event, 100);
+    EvtGetEvent(&event, 25);
     if (MenuHandleEvent(NULL, &event, &error)) { continue; }
     if (AppHandleEvent(&event)){ continue; }
     if (SysHandleEvent(&event)) { continue; }
