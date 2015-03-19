@@ -1,25 +1,10 @@
-#include "zaza.h"
+#include "intexp.h"
 #include <System/SystemPublic.h>
 #include <UI/UIPublic.h>
 #define MAX_STRING_LENGTH 1000
 
 UInt16 offset = 0;
 Char *sentence = "zaza";
-
-// many thanks to 
-// https://github.com/Gaoithe/bgttoolbox/blob/bc47eb94b70ce1712d073ad3a92e7f69c5927341/jcoPalm/MusicScreen/MusicScreen.c
-const void DEBUGBOX(char *ARGSTR1, char *ARGSTR2) {
-  char buf[MAX_STRING_LENGTH];
-  int l=0;
-  l+=StrPrintF(buf+l, "%s %s:%d\n", __FUNCTION__, __FILE__, __LINE__);
-  FrmCustomAlert(Alert, buf, ARGSTR1, ARGSTR2);
-}
-
-const void showKey(Char letter){
-  char buf[8];
-  StrPrintF(buf, "char %c\n",letter);
-  DEBUGBOX("keyDownEvent\n", buf);
-}
 
 typedef struct {
   UInt16 x;
@@ -86,6 +71,23 @@ static Boolean WinFormHandleEvent(EventPtr event){
   return handled;
 }
 
+static Boolean HelpFormHandleEvent(EventPtr event){
+  Boolean handled = false;
+  switch (event->eType) {
+    case frmOpenEvent:
+      FrmDrawForm(FrmGetActiveForm());
+      handled = true;
+      break;
+    case keyDownEvent:
+      FrmGotoForm(GraffitiForm);
+      handled = true;
+      break;
+    default:
+      break;
+  }
+  return handled;
+}
+
 static Boolean AppHandleEvent(EventPtr event){
   FormPtr pfrm;
   Int16 formId;
@@ -100,6 +102,10 @@ static Boolean AppHandleEvent(EventPtr event){
           FrmSetEventHandler(pfrm, GraffitiFormHandleEvent);
           handled = true;
           break;
+        case HelpForm:
+          FrmSetEventHandler(pfrm, HelpFormHandleEvent);
+          handled = true;
+          break;
         case WinForm:
           FrmSetEventHandler(pfrm, WinFormHandleEvent);
           handled = true;
@@ -111,12 +117,17 @@ static Boolean AppHandleEvent(EventPtr event){
     case menuEvent:
       MenuEraseStatus(NULL);
       switch (event->data.menu.itemID) {
-        case MainOptionsAboutCmd:
-          FrmAlert(HelpAlert);
+        case MainMenuAboutCmd:
+          FrmAlert(AboutAlert);
           handled = true;
           break;
         default:
           break;
+      }
+      break;
+    case keyDownEvent:
+      if (event->data.keyDown.chr == vchrHardPower){
+        FrmGotoForm(HelpForm);
       }
       break;
     default:
@@ -128,11 +139,22 @@ static Boolean AppHandleEvent(EventPtr event){
 static void AppEventLoop(void){
   EventType event;
   short error;
+  UInt16 nilEvents;
   do {
     EvtGetEvent(&event, 25);
-    if (MenuHandleEvent(NULL, &event, &error)) { continue; }
-    if (AppHandleEvent(&event)){ continue; }
-    if (SysHandleEvent(&event)) { continue; }
+    if (MenuHandleEvent(NULL, &event, &error)) { nilEvents=0; continue; }
+    if (AppHandleEvent(&event)){ if(event.eType!=nilEvent){nilEvents=0;} continue; }
+    if (SysHandleEvent(&event)) { nilEvents=0; continue; }
+    if (event.eType == nilEvent){
+      nilEvents++;
+      if(nilEvents++ > 40 * 60){
+        nilEvents = 0;
+        if(FrmGetActiveFormID()!=HelpForm){
+          FrmGotoForm(HelpForm);
+        }
+        continue;
+      }
+    }
     FrmDispatchEvent(&event);
   } while (event.eType != appStopEvent);
 }
@@ -145,7 +167,7 @@ UInt32 PilotMain(UInt16 cmd, MemPtr cmdPBP, UInt16 launchFlags) {
 
   // Make sure only react to NormalLaunch, not Reset, Beam, Find, GoTo...
   if (cmd == sysAppLaunchCmdNormalLaunch) {
-    FrmGotoForm(GraffitiForm);
+    FrmGotoForm(HelpForm);
     AppEventLoop();
     FrmCloseAllForms();
   }

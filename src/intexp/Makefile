@@ -1,11 +1,9 @@
 CC = m68k-palmos-gcc
 CFLAGS = -O2 -palmos3.5
 APP = $(notdir $(shell pwd))
-NAME = IntExp
-# You can set NAME to APP...
 
 all: $(APP) bin.stamp
-	build-prc $(APP).prc $(NAME) TuHe $< *.bin
+	build-prc $(APP).prc $(APP) TuHe $< *.bin
 	make clean
 
 %: %.o

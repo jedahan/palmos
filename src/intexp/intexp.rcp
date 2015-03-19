@@ -1,4 +1,4 @@
-#include "zaza.h"
+#include "intexp.h"
 
 FORM ID GraffitiForm AT (0 0 160 160)
 USABLE
@@ -8,7 +8,7 @@ BEGIN
 	LABEL "I AM GIRAFFE" AUTOID AT (CENTER 20) FONT 1
 	LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
 	LABEL "giraffe says" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
-	LABEL "spell zaza" ID LastLetter AT (CENTER PREVBOTTOM+1) FONT 0
+	LABEL "spell zaza" AUTOID AT (CENTER PREVBOTTOM+1) FONT 0
 END
 
 
@@ -19,20 +19,23 @@ BEGIN
 	TITLE "HAPPY!"
 	LABEL "" AUTOID AT (CENTER 20) FONT 1
 	LABEL "You know graffiti!" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
-	FORMBITMAP AT (60 PREVBOTTOM+1) BITMAP 2005
+	FORMBITMAP AT (60 PREVBOTTOM+1) BITMAP WorldBmp
 	LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
 	LABEL "Now don't get caught" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
 	LABEL "by the popo!" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
 END
 
-ALERT ID Alert INFORMATION
+FORM ID HelpForm AT (0 0 160 160)
+USABLE
+MENUID MainMenu
 BEGIN
-	TITLE "InFo!"
-	MESSAGE "^1^2^3"
-	BUTTONS "OK"
+  LABEL "You will be writing using" AUTOID AT (CENTER 10)
+  LABEL "Graffiti to spell the words Palm Pilot" AUTOID AT (CENTER PREVBOTTOM+1)
+  LABEL "Write any character to continue" AUTOID AT (CENTER PREVBOTTOM+1)
+  FORMBITMAP AT (0 PREVBOTTOM+1) BITMAP GraffitiBmp
 END
 
-ALERT ID HelpAlert 
+ALERT ID AboutAlert 
 BEGIN
   TITLE "About"
   MESSAGE "by Jonathan Dahan\n"\
@@ -45,10 +48,11 @@ BEGIN
   BUTTONS "OK"
 END
 
-ICON "zaza.bmp"
+ICON "intexp.bmp"
 
-SMALLICON "zazasmall.bmp"
+SMALLICON "intexpsmall.bmp"
 
-BITMAP ID 2005 "zaza.bmp"
+BITMAP ID WorldBmp "intexp.bmp"
+BITMAP ID GraffitiBmp "graffiti.bmp"
 
 VERSION 1 "1.0.0"
