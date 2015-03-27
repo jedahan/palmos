@@ -7,5 +7,4 @@
 
 #define AboutAlert       4000
 
-#define WorldBmp         9000
 #define GraffitiBmp      9100

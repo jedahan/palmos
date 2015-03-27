@@ -1,17 +1,16 @@
 #include "IntExp.h"
 #include <System/SystemPublic.h>
 #include <UI/UIPublic.h>
-#define MAX_STRING_LENGTH 1000
 
 UInt16 offset = 0;
-Char *sentence = "zaza";
+Char *sentence = "palmpilot";
 
 typedef struct {
   UInt16 x;
   UInt16 y;
   UInt16 dx;
   UInt16 dy;
-  Char letter[4];
+  Char letter[9];
 } Sprite;
 
 typedef Sprite *SpritePtr;
