@@ -2,7 +2,7 @@ CONTAINER = jedahan/palmos
 ROOTFS = /var/tmp/rootfs
 TMP = /var/tmp
 CWD = $(shell pwd)
-DEPS = intexp.prc
+DEPS = IntExp.prc
 
 all: $(DEPS)
 

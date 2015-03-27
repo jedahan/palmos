@@ -1,4 +1,4 @@
-#include "intexp.h"
+#include "IntExp.h"
 #include <System/SystemPublic.h>
 #include <UI/UIPublic.h>
 #define MAX_STRING_LENGTH 1000

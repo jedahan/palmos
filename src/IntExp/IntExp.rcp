@@ -1,4 +1,4 @@
-#include "intexp.h"
+#include "IntExp.h"
 
 FORM ID GraffitiForm AT (0 0 160 160)
 USABLE
@@ -48,11 +48,11 @@ BEGIN
   BUTTONS "OK"
 END
 
-ICON "intexp.bmp"
+ICON "IntExp.bmp"
 
-SMALLICON "intexpsmall.bmp"
+SMALLICON "IntExpSmall.bmp"
 
-BITMAP ID WorldBmp "intexp.bmp"
+BITMAP ID WorldBmp "IntExp.bmp"
 BITMAP ID GraffitiBmp "graffiti.bmp"
 
 VERSION 1 "1.0.0"

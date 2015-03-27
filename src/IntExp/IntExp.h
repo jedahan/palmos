@@ -1,6 +1,6 @@
-#define GraffitiForm 	   1000
-#define HelpForm 		     1100
-#define WinForm 		     1200
+#define GraffitiForm     1000
+#define HelpForm         1100
+#define WinForm          1200
 
 #define MainMenu         2000
 #define MainMenuAboutCmd 2100
