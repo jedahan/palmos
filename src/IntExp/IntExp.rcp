@@ -6,7 +6,8 @@ MENUID MainMenu
 BEGIN
   TITLE "IntExp"
   LABEL "Practice your Graffiti skills" AUTOID AT (CENTER 20) FONT 1
-  LABEL "write the letters that appear below" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+  LABEL "write the letters" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
+  LABEL "that appear below" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
 END
 
 FORM ID GraffitiHelpForm AT (2 2 156 156)
@@ -28,7 +29,7 @@ BEGIN
   LABEL "now leave a message below!" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
   LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
   FIELD AUTOID AT (CENTER PREVBOTTOM-2 130 14) LEFTALIGN EDITABLE UNDERLINED MAXCHARS 140
-  BUTTON "DONE" AUTOID AT (CENTER PREVBOTTOM+1 AUTO AUTO) FONT 1
+  BUTTON "DONE" ID DoneButton AT (CENTER PREVBOTTOM+1 AUTO AUTO) FONT 1
 END
 
 FORM ID HelpForm AT (0 0 160 160)
@@ -46,23 +47,9 @@ BEGIN
   PULLDOWN "Menu"
   BEGIN
     MENUITEM "GraffitiHelp" ID MainMenuGraffitiHelpCmd "G"
-    MENUITEM "About" ID MainMenuAboutCmd "A"
     MENUITEM SEPARATOR
     MENUITEM "Restart" ID MainMenuRestartCmd
   END
-END
-
-ALERT ID AboutAlert
-BEGIN
-  TITLE "About"
-  MESSAGE "by Jonathan Dahan\n"\
-  "  jonathan@jonathan.is\n"\
-  "  http://jonathan.is\n"\
-  "\n"\
-  "Many thanks to:\n"\
-  "  Eric Poncet\n"\
-  "mobile.eric-poncet.com\n"
-  BUTTONS "OK"
 END
 
 ICON "IntExp.bmp"

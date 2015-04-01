@@ -4,12 +4,11 @@
 #define GraffitiHelpForm 1300
 
 #define MainMenu                2000
-#define MainMenuAboutCmd        2100
-#define MainMenuGraffitiHelpCmd 2200
-#define MainMenuRestartCmd      2300
-
-#define AboutAlert       4000
+#define MainMenuGraffitiHelpCmd 2100
+#define MainMenuRestartCmd      2200
 
 #define GraffitiBmp      9100
 
 #define Help             1000
+
+#define DoneButton       4000

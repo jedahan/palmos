@@ -64,6 +64,11 @@ static Boolean WinFormHandleEvent(EventPtr event){
       FrmDrawForm(FrmGetActiveForm());
       handled = true;
       break;
+    case ctlSelectEvent:
+      if (event->data.ctlSelect.controlID == DoneButton){
+        FrmGotoForm(HelpForm);
+        handled = true;
+      }
     default:
       break;
   }
@@ -138,10 +143,6 @@ static Boolean AppHandleEvent(EventPtr event){
     case menuEvent:
       MenuEraseStatus(NULL);
       switch (event->data.menu.itemID) {
-        case MainMenuAboutCmd:
-          FrmAlert(AboutAlert);
-          handled = true;
-          break;
         case MainMenuGraffitiHelpCmd:
           FrmGotoForm(GraffitiHelpForm);
           handled = true;
@@ -150,7 +151,6 @@ static Boolean AppHandleEvent(EventPtr event){
           FrmGotoForm(HelpForm);
           handled = true;
           break;
- 
         default:
           break;
       }
