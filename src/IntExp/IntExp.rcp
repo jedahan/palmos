@@ -6,10 +6,17 @@ MENUID MainMenu
 BEGIN
   TITLE "IntExp"
   LABEL "Practice your Graffiti skills" AUTOID AT (CENTER 20) FONT 1
-  LABEL "" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
-  LABEL "by writing the letters that appear below" AUTOID AT (CENTER PREVBOTTOM+1) FONT 2
+  LABEL "write the letters that appear below" AUTOID AT (CENTER PREVBOTTOM+1) FONT 1
 END
 
+FORM ID GraffitiHelpForm AT (2 2 156 156)
+USABLE
+MODAL
+BEGIN
+  TITLE "Graffiti Reference"
+  LABEL "Press menu to dismiss" AUTOID AT (CENTER 12) FONT 2
+  FORMBITMAP AT (0 PREVBOTTOM+1) BITMAP GraffitiBmp
+END
 
 FORM ID WinForm AT (0 0 160 160)
 USABLE
@@ -38,14 +45,10 @@ MENU ID MainMenu
 BEGIN
   PULLDOWN "Menu"
   BEGIN
-    MENUITEM "Cut" AUTOID "X"
+    MENUITEM "GraffitiHelp" ID MainMenuGraffitiHelpCmd "G"
+    MENUITEM "About" ID MainMenuAboutCmd "A"
     MENUITEM SEPARATOR
-  END
-  PULLDOWN "Options"
-  BEGIN
-    MENUITEM "Help" AUTOID "H"
-    MENUITEM SEPARATOR
-    MENUITEM "About" AUTOID "A"
+    MENUITEM "Restart" ID MainMenuRestartCmd
   END
 END
 

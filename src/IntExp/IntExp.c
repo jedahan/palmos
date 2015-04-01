@@ -70,6 +70,24 @@ static Boolean WinFormHandleEvent(EventPtr event){
   return handled;
 }
 
+static Boolean GraffitiHelpFormHandleEvent(EventPtr event){
+  Boolean handled = false;
+  switch (event->eType) {
+    case frmOpenEvent:
+      FrmDrawForm(FrmGetActiveForm());
+      handled = true;
+      break;
+    case keyDownEvent:
+      FrmGotoForm(GraffitiForm);
+      handled = true;
+      break;
+    default:
+      break;
+  }
+  return handled;
+}
+
+
 static Boolean HelpFormHandleEvent(EventPtr event){
   Boolean handled = false;
   switch (event->eType) {
@@ -97,6 +115,10 @@ static Boolean AppHandleEvent(EventPtr event){
       pfrm = FrmInitForm(formId);
       FrmSetActiveForm(pfrm);
       switch (formId){
+        case GraffitiHelpForm:
+          FrmSetEventHandler(pfrm, GraffitiHelpFormHandleEvent);
+          handled = true;
+          break;
         case GraffitiForm:
           FrmSetEventHandler(pfrm, GraffitiFormHandleEvent);
           handled = true;
@@ -120,6 +142,15 @@ static Boolean AppHandleEvent(EventPtr event){
           FrmAlert(AboutAlert);
           handled = true;
           break;
+        case MainMenuGraffitiHelpCmd:
+          FrmGotoForm(GraffitiHelpForm);
+          handled = true;
+          break;
+         case MainMenuRestartCmd:
+          FrmGotoForm(HelpForm);
+          handled = true;
+          break;
+ 
         default:
           break;
       }
