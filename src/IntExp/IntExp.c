@@ -4,6 +4,8 @@
 
 UInt16 offset = 0;
 Char *sentence = "palmpilot";
+Int16 formId;
+Int16 prevFormId;
 
 typedef struct {
   UInt16 x;
@@ -83,7 +85,7 @@ static Boolean GraffitiHelpFormHandleEvent(EventPtr event){
       handled = true;
       break;
     case keyDownEvent:
-      FrmGotoForm(GraffitiForm);
+      FrmGotoForm(prevFormId);
       handled = true;
       break;
     default:
@@ -112,28 +114,29 @@ static Boolean HelpFormHandleEvent(EventPtr event){
 
 static Boolean AppHandleEvent(EventPtr event){
   FormPtr pfrm;
-  Int16 formId;
   Boolean handled = false;
   switch (event->eType){
     case frmLoadEvent:
+      prevFormId = formId;
       formId = event->data.frmLoad.formID;
       pfrm = FrmInitForm(formId);
       FrmSetActiveForm(pfrm);
       switch (formId){
-        case GraffitiHelpForm:
-          FrmSetEventHandler(pfrm, GraffitiHelpFormHandleEvent);
-          handled = true;
-          break;
-        case GraffitiForm:
+       case GraffitiForm:
           FrmSetEventHandler(pfrm, GraffitiFormHandleEvent);
           handled = true;
           break;
         case HelpForm:
+          offset = 0;
           FrmSetEventHandler(pfrm, HelpFormHandleEvent);
           handled = true;
           break;
         case WinForm:
           FrmSetEventHandler(pfrm, WinFormHandleEvent);
+          handled = true;
+          break;
+        case GraffitiHelpForm:
+          FrmSetEventHandler(pfrm, GraffitiHelpFormHandleEvent);
           handled = true;
           break;
         default:
